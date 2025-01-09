@@ -8,18 +8,18 @@ import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
-let title = 'QrGPT - QR Code Generator';
-let description = 'Generate your AI QR Code in seconds';
-let url = 'https://www.qrgpt.io';
-let ogimage = 'https://www.qrgpt.io/og-image.png';
-let sitename = 'qrGPT.io';
+const title = 'WillSUN';
+const description = 'Generate probate document';
+const url = 'https://willsun.vercel.app';
+const ogimage = '';
+const sitename = '';
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
   title,
   description,
   icons: {
-    icon: '/favicon.ico',
+    icon: '/doc-document-file-3-svgrepo-com.svg',
   },
   openGraph: {
     images: [ogimage],
