@@ -49,10 +49,14 @@ export default function RootLayout({
       <head>
       </head>
       <body className={inter.className}>
-        <Suspense>
-          <Navbar />
-          <main>{children}</main>
-        </Suspense>
+        <div className="relative flex flex-col h-screen">
+          <Suspense>
+            <Navbar />
+            <main className="container mx-auto max-w-12xl pt-16 px-6 flex-grow">
+              {children}
+            </main>
+          </Suspense>
+        </div>
       </body>
     </html>
   );

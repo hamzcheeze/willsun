@@ -1,0 +1,230 @@
+@font-face {
+  font-family: 'THSarabunPSK';
+  src: url('/fonts/THSarabun.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.customFont {
+  font-family: 'THSarabunPSK', Arial, sans-serif;
+}
+
+.page {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto;
+  padding: 5mm;
+  background-color: #ffffff;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  position: relative;
+  font-family: 'THSarabunPSK', Arial, sans-serif;
+  /* Fallback to Arial if font not available */
+  box-sizing: border-box;
+  page-break-after: always;
+}
+
+@media print {
+
+  @page {
+    /* margin-top: 10mm;
+    margin-right: 10mm;
+    margin-bottom: 10mm;
+    margin-left: 10mm; */
+    margin: 10mm;
+  }
+}
+
+.dashedLine {
+  font-size: 24px;
+  border-bottom: 1px dashed black;
+  align-self: flex-end;
+  text-align: center;
+}
+
+.dashedLineLeft {
+  font-size: 24px;
+  border-bottom: 1px dashed black;
+  align-self: flex-end;
+  text-align: left;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leftColumn {
+  flex: 1;
+  /* Take up remaining space */
+}
+
+.centerColumn {
+  flex: 1;
+  text-align: center;
+  /* margin: auto; */
+}
+
+.rightColumn {
+  flex: 1;
+  /* Take up remaining space */
+  text-align: right;
+}
+
+.symbol {
+  width: auto;
+  height: 134.386px;
+  display: block;
+  margin: 0 auto;
+}
+
+.gridContainer2left {
+  display: grid;
+  grid-template-columns: 5% 5% auto;
+  /* gap: 5px; */
+  height: 40px;
+  /* Add space between columns */
+}
+
+.col2 {
+  display: grid;
+  grid-template-columns: 50% auto;
+  gap: 5px;
+  height: 40px;
+}
+
+.caseNumber {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 5px;
+}
+
+.date {
+  display: grid;
+  grid-template-columns: 45% fit-content(60px) auto fit-content(60px) 100px fit-content(80px) auto;
+  gap: 5px;
+  height: 40px;
+}
+
+.caseNumber {
+  font-size: 24px;
+}
+
+.circle {
+  font-size: 20px;
+  align-self: flex-end;
+}
+
+.title {
+  font-size: 24px;
+  /* text-align: right; */
+  align-self: flex-end;
+}
+
+.courtData {
+  /* padding-left: 30; */
+  text-align: left;
+}
+
+.gridBetween {
+  display: grid;
+  grid-template-columns: 50px 50px auto fit-content(60px);
+  /* gap: 5px; */
+  margin-top: 10px;
+}
+
+.betweenTitle {
+  font-size: 24px;
+  align-self: center;
+}
+
+.bracket {
+  align-items: start;
+  width: auto;
+  height: 134.386px;
+  display: block;
+  margin: 0 auto;
+}
+
+#item1 {
+  grid-column: 1;
+  grid-row: 2/ span 3;
+}
+
+#item2 {
+  grid-row: 2 / span 3;
+  grid-column: 2;
+}
+
+/* #canHide {
+    visibility: hidden;
+  } */
+
+#charge {
+  display: grid;
+  grid-template-columns: fit-content(200px) auto;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+#amount {
+  display: grid;
+  grid-template-columns: fit-content(200px) auto fit-content(200px) auto fit-content(200px);
+  gap: 5px;
+  height: 40px;
+}
+
+#col3Tab {
+  display: grid;
+  grid-template-columns: 50px fit-content(100px) auto;
+  gap: 5px;
+  height: 40px;
+}
+
+#idNumber {
+  display: grid;
+  grid-template-columns: fit-content(200px) 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px fit-content(200px);
+  gap: 5px;
+  height: 30px;
+  margin-top: 10px;
+}
+
+#idBox {
+  font-size: 24px;
+  border: 1px solid black;
+  align-self: flex-end;
+  text-align: center;
+}
+
+#race {
+  display: grid;
+  grid-template-columns: fit-content(200px) auto fit-content(200px) auto fit-content(200px) auto fit-content(200px) auto fit-content(200px);
+  gap: 5px;
+  height: 40px;
+}
+
+#address {
+  display: grid;
+  grid-template-columns: fit-content(200px) auto fit-content(200px) auto fit-content(200px) auto;
+  gap: 5px;
+  height: 40px;
+}
+
+#fax {
+  display: grid;
+  grid-template-columns: fit-content(200px) auto fit-content(200px) auto;
+  gap: 5px;
+  height: 40px;
+}
+
+#blankSpace {
+  display: grid;
+  grid-template-columns: auto;
+  height: 40px;
+}
+
+#purpose {
+  display: grid;
+  grid-template-columns: fit-content(200px);
+  height: 40px;
+}

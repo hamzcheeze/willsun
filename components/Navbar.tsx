@@ -34,7 +34,7 @@ const Navbar = () => {
   return (
     <header>
       <nav
-        className={`bg-white w-full md:static md:text-sm ${state ? 'fixed z-10 h-full' : ''
+        className={`bg-white w-full md:static md:text-lg ${state ? 'fixed z-10 h-full' : ''
           }`}
       >
         <div className="custom-screen items-center mx-auto md:flex">
@@ -99,7 +99,7 @@ const Navbar = () => {
               <li>
                 <NavLink
                   href="/generate"
-                  className="block font-medium text-sm text-white bg-gray-800 hover:bg-gray-600 active:bg-gray-900 md:inline"
+                  className="block font-medium text-lg text-white bg-gray-800 hover:bg-gray-600 active:bg-gray-900 md:inline"
                 >
                   สร้างเอกสาร
                 </NavLink>
