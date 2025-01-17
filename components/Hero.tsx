@@ -1,5 +1,7 @@
 'use client';
+
 import { motion } from "framer-motion";
+import NavLink from "./NavLink";
 
 export default function Hero() {
     const draw = {
@@ -34,8 +36,24 @@ export default function Hero() {
                         ได้ด้วยตัวคุณเอง
                     </h1>
                     <p className="max-w-xl mx-auto">
-                        WillSUN ช่วยให้คุณสร้างเอกสารจัดตั้งผู้จัดการมรดกได้ง่ายๆ ภายในระยะเวลาอันสั้น
+                        ลดเวลา ลดความยุ่งยาก ด้วยระบบอัตโนมัติที่ช่วยจัดการเอกสารกฎหมายอย่างมืออาชีพ ประหยัดค่าใช้จ่ายและถูกต้องตามข้อกำหนดของศาลไทย
                     </p>
+                    <div className="flex items-center justify-center gap-x-3 font-medium text-sm">
+                        <NavLink
+                            href="/start"
+                            className="text-white bg-gray-800 hover:bg-gray-600 active:bg-gray-900 text-lg"
+                        >
+                            เริ่มต้นใช้งาน
+                        </NavLink>
+                        <NavLink
+                            target="_blank"
+                            href="#"
+                            className="text-gray-700 border hover:bg-gray-50 text-lg"
+                            scroll={false}
+                        >
+                            ข้อกำหนด
+                        </NavLink>
+                    </div>
                     <div className="flex items-center justify-center">
                         <motion.svg
                             width="900"

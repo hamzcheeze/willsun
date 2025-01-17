@@ -73,32 +73,61 @@ const Body = () => {
         },
     })
 
-    const handleContinue = () => {
-        // Store current step values before moving to next step
+    const handlePrevious = () => {
+        // Store current step values
         const currentValues = form.getValues();
         setStepValues({
             ...stepValues,
             ...currentValues
         });
 
-        // Clear form for next step
-        if (step === 1) {
+        // Restore values for previous step
+        if (step === 2) {
             form.reset({
-                field4: '',
-                field5: '',
-                field6: '',
-            });
-        } else if (step === 2) {
-            form.reset({
-                field7: '',
-                field8: '',
-                field9: '',
+                field1: stepValues.field1,
+                field2: stepValues.field2,
+                field3: stepValues.field3,
             });
         } else if (step === 3) {
             form.reset({
-                field10: '',
-                field11: '',
-                field12: '',
+                field4: stepValues.field4,
+                field5: stepValues.field5,
+                field6: stepValues.field6,
+            });
+        } else if (step === 4) {
+            form.reset({
+                field7: stepValues.field7,
+                field8: stepValues.field8,
+                field9: stepValues.field9,
+            });
+        }
+        setStep(step - 1);
+    };
+
+    const handleContinue = () => {
+        const currentValues = form.getValues();
+        setStepValues({
+            ...stepValues,
+            ...currentValues
+        });
+
+        if (step === 1) {
+            form.reset({
+                field4: stepValues.field4,
+                field5: stepValues.field5,
+                field6: stepValues.field6,
+            });
+        } else if (step === 2) {
+            form.reset({
+                field7: stepValues.field7,
+                field8: stepValues.field8,
+                field9: stepValues.field9,
+            });
+        } else if (step === 3) {
+            form.reset({
+                field10: stepValues.field10,
+                field11: stepValues.field11,
+                field12: stepValues.field12,
             });
         }
         setStep(step + 1);
@@ -117,21 +146,21 @@ const Body = () => {
             console.log('Final form values:', finalValues);
 
             // Reset everything after successful submission
-            // setStepValues({
-            //     field1: '',
-            //     field2: '',
-            //     field3: '',
-            //     field4: '',
-            //     field5: '',
-            //     field6: '',
-            //     field7: '',
-            //     field8: '',
-            //     field9: '',
-            //     field10: '',
-            //     field11: '',
-            //     field12: '',
-            // });
-            // form.reset();
+            setStepValues({
+                field1: '',
+                field2: '',
+                field3: '',
+                field4: '',
+                field5: '',
+                field6: '',
+                field7: '',
+                field8: '',
+                field9: '',
+                field10: '',
+                field11: '',
+                field12: '',
+            });
+            form.reset();
             // setStep(1);
         }
     }
@@ -141,7 +170,6 @@ const Body = () => {
                 return (
                     <>
                         <FormField
-                            control={form.control}
                             name="field1"
                             render={({ field }) => (
                                 <FormItem>
@@ -153,7 +181,6 @@ const Body = () => {
                             )}
                         />
                         <FormField
-                            control={form.control}
                             name="field2"
                             render={({ field }) => (
                                 <FormItem>
@@ -165,7 +192,6 @@ const Body = () => {
                             )}
                         />
                         <FormField
-                            control={form.control}
                             name="field3"
                             render={({ field }) => (
                                 <FormItem>
@@ -182,7 +208,6 @@ const Body = () => {
                 return (
                     <>
                         <FormField
-                            control={form.control}
                             name="field4"
                             render={({ field }) => (
                                 <FormItem>
@@ -194,7 +219,6 @@ const Body = () => {
                             )}
                         />
                         <FormField
-                            control={form.control}
                             name="field5"
                             render={({ field }) => (
                                 <FormItem>
@@ -206,7 +230,6 @@ const Body = () => {
                             )}
                         />
                         <FormField
-                            control={form.control}
                             name="field6"
                             render={({ field }) => (
                                 <FormItem>
@@ -223,7 +246,6 @@ const Body = () => {
                 return (
                     <>
                         <FormField
-                            control={form.control}
                             name="field7"
                             render={({ field }) => (
                                 <FormItem>
@@ -235,7 +257,6 @@ const Body = () => {
                             )}
                         />
                         <FormField
-                            control={form.control}
                             name="field8"
                             render={({ field }) => (
                                 <FormItem>
@@ -247,7 +268,6 @@ const Body = () => {
                             )}
                         />
                         <FormField
-                            control={form.control}
                             name="field9"
                             render={({ field }) => (
                                 <FormItem>
@@ -263,42 +283,43 @@ const Body = () => {
             case 4:
                 return (
                     <>
-                        <FormField
-                            control={form.control}
-                            name="field10"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Field10</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="field11"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Field11</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="field12"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Field12</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                        <div className="flex flex-wrap lg:flex-nowrap gap-2">
+                            <FormField
+                                name="field10"
+                                render={({ field }) => (
+                                    <FormItem className="flex-1">
+                                        <FormLabel>Field10</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                name="field11"
+                                render={({ field }) => (
+                                    <FormItem className="flex-1">
+                                        <FormLabel>Field11</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="flex flex-wrap lg:flex-nowrap gap-2">
+                            <FormField
+                                name="field12"
+                                render={({ field }) => (
+                                    <FormItem className="flex-1">
+                                        <FormLabel>Field12</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                     </>
                 );
             default:
@@ -323,7 +344,7 @@ const Body = () => {
                                 <span className="text-white">{stepNumber}</span>
                             )}
                         </div>
-                        <span className="ml-2 mr-2">
+                        <span className="ml-2 mr-2 hidden 2xl:inline">
                             {stepNumber === 1 ? 'Create' :
                                 stepNumber === 2 ? 'Review' :
                                     stepNumber === 3 ? 'Verify' : 'Submit'}
@@ -336,15 +357,6 @@ const Body = () => {
             </div>
         );
     };
-
-    // const handleContinue = () => {
-    //     const values = form.getValues();
-    //     if (step === 1 && values.field1 && values.field2 && values.field3) {
-    //         setStep(2);
-    //     } else if (step === 2 && values.field4 && values.field5 && values.field6) {
-    //         setStep(3);
-    //     }
-    // };
 
     return (
         <section className="grid grid-cols-12 mb-12">
@@ -363,7 +375,7 @@ const Body = () => {
                                     {step > 1 && (
                                         <Button
                                             type="button"
-                                            onClick={() => setStep(step - 1)}
+                                            onClick={handlePrevious}
                                             variant="outline"
                                         >
                                             Previous

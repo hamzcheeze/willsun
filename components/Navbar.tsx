@@ -101,7 +101,7 @@ const Navbar = () => {
                   href="/generate"
                   className="block font-medium text-lg text-white bg-gray-800 hover:bg-gray-600 active:bg-gray-900 md:inline"
                 >
-                  สร้างเอกสาร
+                  เริ่มต้นใช้งาน
                 </NavLink>
               </li>
             </ul>
