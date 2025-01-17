@@ -1,8 +1,9 @@
-import Navbar from '@/components/Navbar';
-import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Suspense } from 'react';
+import Navbar from '@/components/Navbar';
+import localFont from "next/font/local";
+import './globals.css';
 // import Footer from '@/components/Footer';
 // import { Analytics } from '@vercel/analytics/react';
 // import PlausibleProvider from 'next-plausible';
@@ -39,6 +40,10 @@ export const metadata: Metadata = {
   },
 };
 
+const myFont = localFont({
+  src: "/fonts/Sarabun-Medium.ttf",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -49,6 +54,7 @@ export default function RootLayout({
       <head>
       </head>
       <body className={inter.className}>
+      {/* <body className={`${myFont.className} antialiased`}> */}
         <div className="relative flex flex-col h-screen">
           <Suspense>
             <Navbar />

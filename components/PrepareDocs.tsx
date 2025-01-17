@@ -1,64 +1,62 @@
-'use client';
+// components/PrepareDocs.tsx
+import { FC } from 'react';
+import { motion } from 'framer-motion';
+import { DocumentSection } from '@/components/DocumentSection';
 
 interface PrepareDocsProps {
     relation: string;
 }
 
-export default function PrepareDocs({ relation }: PrepareDocsProps) {
-    return (
-        <div className="items-center space-x-4 rounded-md border p-4">
+export const PrepareDocs: FC<PrepareDocsProps> = ({ relation }) => {
+    const requesterDocs = [
+        'สำเนาทะเบียนบ้าน',
+        'สำเนาบัตรประชาชน',
+        'สำเนาใบเปลี่ยนชื่อ-สกุล (ถ้ามี)',
+    ];
 
-            <div className="space-y-1 mt-4">
-                <p className="text-lg font-bold ml-4">
-                    โปรดเตรียมเอกสารเพิ่มเติมดังต่อไปนี้พื่อทำการสร้างแบบฟอร์มคำร้อง
+    const deceasedDocs = [
+        'สำเนาทะเบียนบ้าน',
+        'สำเนามรณบัตร',
+        'สำเนาทะเบียนสมรส/หย่า',
+        'สำเนาใบเปลี่ยนชื่อ-สกุล (ถ้ามี)',
+        ...(relation === 'dadMomInlaw' ? ['ทะเบียนรับบุตรบุญธรรม'] : []),
+        ...(relation === 'dad' ? ['ทะเบียนรับรองบุตร (ถ้ามี)'] : []),
+    ];
+
+    const inheritanceDocs = [
+        'บัญชีเงินฝาก',
+        'ทะเบียนรถ/ปืน',
+        'ใบหุ้น',
+        'โฉนดที่ดิน',
+        'สัญญาเช่าซื้อ',
+    ];
+
+    const relativeDocs = [
+        'สำเนามรณบัตรบิดาผู้ตาย',
+        'สำเนามรณบัตรมารดาผู้ตาย',
+    ];
+
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-6"
+        >
+            <div className="bg-muted/50 p-6 rounded-lg">
+                <h2 className="text-xl font-semibold text-center mb-6">
+                    โปรดเตรียมเอกสารเพิ่มเติมดังต่อไปนี้เพื่อทำการสร้างแบบฟอร์มคำร้อง
                     <br />
                     ขอให้ศาลตั้งเป็นผู้จัดการมรดก (โดยไม่มีพินัยกรรม)
-                </p>
-            </div>
-            <br />
+                </h2>
 
-            <div className="grid grid-cols-12">
-                <div className="col-span-6">
-                    <b>1. เอกสารของผู้ร้องขอ</b><br />
-                    - สำเนาทะเบียนบ้าน<br />
-                    - สำเนาบัตรประชาชน<br />
-                    - สำเนาใบเปลี่ยนชื่อ-สกุล (ถ้ามี)<br />
-
-                    <br />
-                    <b>2. เอกสารของผู้ตาย</b><br />
-                    - สำเนาทะเบียนบ้าน<br />
-                    - สำเนามรณบัตร<br />
-                    - สำเนาทะเบียนสมรส/หย่า<br />
-                    - สำเนาใบเปลี่ยนชื่อ-สกุล (ถ้ามี)<br />
-                    {relation == "dadMomInlaw" ? (
-                        <>
-                            - ทะเบียนรับบุตรบุญธรรม<br />
-                        </>
-                    ) : relation == "dad" ? (
-                        <>
-                            - ทะเบียนรับรองบุตร (ถ้ามี)<br />
-                        </>
-                    ) : null}
-
-                    <br />
-                    <b>3. ทรัพย์มรดก</b><br />
-                    - บัญชีเงินฝาก<br />
-                    - ทะเบียนรถ/ปืน<br />
-                    - ใบหุ้น<br />
-                    - โฉนดที่ดิน<br />
-                    - สัญญาเช่าซื้อ<br />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <DocumentSection title="1. เอกสารของผู้ร้องขอ" items={requesterDocs} />
+                    <DocumentSection title="2. เอกสารของผู้ตาย" items={deceasedDocs} />
+                    <DocumentSection title="3. ทรัพย์มรดก" items={inheritanceDocs} />
+                    <DocumentSection title="4. บัญชีเครือญาติ" items={relativeDocs} />
                 </div>
-
-                <div className="col-span-6">
-                    <b>4. บัญชีเครือญาติ</b><br />
-                    - สำเนามรณบัตรบิดาผู้ตาย<br />
-                    - สำเนามรณบัตรมารดาผู้ตาย<br />
-                </div>
-
             </div>
-
-
-
-        </div>
-    )
-}
+        </motion.div>
+    );
+};

@@ -1,164 +1,94 @@
-
+// pages/questionnaire.tsx
 'use client';
 
-import {
-    Card,
-    CardContent,
-    CardHeader
-} from "@/components/ui/card"
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { motion } from 'framer-motion';
+import { Card, CardContent } from '@/components/ui/card';
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
+} from '@/components/ui/form';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useForm } from "react-hook-form"
-import { useEffect, useState, useTransition } from "react";
-import PrepareDocs from "@/components/PrepareDocs";
+} from '@/components/ui/select';
+import { PrepareDocs } from '@/components/PrepareDocs';
+
+export interface Relation {
+    value: string;
+    label: string;
+}
+
+export const RELATIONS: Relation[] = [
+    { value: "mom", label: "มารดา" },
+    { value: "marriedDad", label: "บิดาที่สมรสกับมารดา" },
+    { value: "dad", label: "บิดาที่ไม่ได้สมรสกับมารดา" },
+    { value: "dadMomInlaw", label: "บิดา/มารดาบุญธรรม" }
+];
 
 export default function QuestionnairePage() {
-    const [isPeding, startTransition] = useTransition();
-    const [error, setError] = useState<string | undefined>("");
-    const [success, setSuccess] = useState<string | undefined>("");
-    const [relation, setRelation] = useState("")
+    const [relation, setRelation] = useState('');
     const form = useForm();
 
-    // useEffect(() => {
-    //     console.log(relation)
-    // }, [relation])
-
-    const onSubmit = (data: any) => {
-        console.log(data)
-        console.log(data.relation);
-    }
-
     return (
-        <section className="flex items-center justify-center">
-            {/* <div className="w-9/12"> */}
-            <Card className="w-[800px]">
-                <CardHeader>
-                    {/* <h1 className="text-3xl font-bold mb-2 text-center">กรุณาตอบคำถามต่อไปนี้</h1> */}
-                </CardHeader>
-                <CardContent>
-                    <Form {...form}>
-                        <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-6"
-                        >
-                            <div className="mb-4 text-center">
-                                <FormField
-                                    control={form.control}
-                                    name="relation"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel
-                                                className="text-xl">
-                                                ผู้ตายเป็นอะไรกับท่าน
-                                            </FormLabel>
-                                            <Select
-                                                // onValueChange={field.onChange}
-                                                onValueChange={(value) => setRelation(value)}
-                                                defaultValue={field.value}
-                                            >
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="โปรดเลือก" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value="mom">มารดา</SelectItem>
-                                                    <SelectItem value="marriedDad">บิดาที่สมรสกับมารดา</SelectItem>
-                                                    <SelectItem value="dad">บิดาที่ไม่ได้สมรสกับมารดา</SelectItem>
-                                                    <SelectItem value="dadMomInlaw">บิดา/มารดาบุญธรรม</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                            {relation && <PrepareDocs relation={relation}/>}
-                            {/* <div>
-                                <FormField
-                                    control={form.control}
-                                    name="lastname"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>นามสกุล</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    disabled={isPeding}
-                                                    placeholder=""
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                            <div className="space-y-4">
-                                <FormField
-                                    control={form.control}
-                                    name="email"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>อีเมล์</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    disabled={isPeding}
-                                                    type="email"
-                                                    placeholder="email@example.com"
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="password"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>รหัสผ่าน</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    disabled={isPeding}
-                                                    type="password"
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                            <Button
-                                disabled={isPeding}
-                                type="submit"
-                                className="w-full"
-                            >
-                                ยืนยัน
-                            </Button> */}
-                        </form>
-                    </Form>
-                </CardContent>
-            </Card>
-            {/* </div> */}
-        </section>
+        <section className="container mx-auto py-10 px-4">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+            >
+                <Card className="max-w-4xl mx-auto">
+                    <CardContent className="p-6">
+                        <Form {...form}>
+                            <form className="space-y-8">
+                                <div className="space-y-4">
+                                    <FormField
+                                        control={form.control}
+                                        name="relation"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-xl font-semibold text-center block mb-6">
+                                                    ผู้ตายเป็นอะไรกับท่าน
+                                                </FormLabel>
+                                                <Select
+                                                    onValueChange={(value) => setRelation(value)}
+                                                    defaultValue={field.value}
+                                                >
+                                                    <FormControl>
+                                                        <SelectTrigger className="w-full text-lg">
+                                                            <SelectValue placeholder="โปรดเลือก" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        {RELATIONS.map((relation: any) => (
+                                                            <SelectItem
+                                                                key={relation.value}
+                                                                value={relation.value}
+                                                                className="text-lg"
+                                                            >
+                                                                {relation.label}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
 
+                                {relation && <PrepareDocs relation={relation} />}
+                            </form>
+                        </Form>
+                    </CardContent>
+                </Card>
+            </motion.div>
+        </section>
     );
 }
