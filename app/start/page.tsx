@@ -1,7 +1,7 @@
 // pages/questionnaire.tsx
 'use client';
 
-import { use, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -22,12 +22,12 @@ import {
 import { PrepareDocs } from '@/components/PrepareDocs';
 import { Input } from '@/components/ui/input';
 
-export interface Dropdown {
+interface Dropdown {
     value: string;
     label: string;
 }
 
-export const RELATIONS: Dropdown[] = [
+const RELATIONS: Dropdown[] = [
     { value: "marriedMom", label: "มารดาที่สมรสกับบิดาท่าน" },
     { value: "mom", label: "มารดาที่ไม่ได้สมรสกับบิดาท่าน" },
     { value: "marriedDad", label: "บิดาที่สมรสกับมารดาท่าน" },
@@ -35,7 +35,7 @@ export const RELATIONS: Dropdown[] = [
     { value: "dadMomInlaw", label: "บิดา/มารดาบุญธรรม" }
 ];
 
-export const PARENT: Dropdown[] = [
+const PARENT: Dropdown[] = [
     { value: "aliveBoth", label: "ทั้งบิดาและมารดาผู้ตายยังมีชีวิตอยู่ทั้งคู่" },
     { value: "deadGrandpa", label: "บิดาเสียชีวิต/มารดาผู้ตายยังมีชีวิตอยู่" },
     { value: "deadGrandma", label: "บิดามีชีวิต/มารดาผู้ตายเสียชีวิตแล้ว" },
@@ -83,7 +83,7 @@ export default function QuestionnairePage() {
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent>
-                                                        {RELATIONS.map((relation: any) => (
+                                                        {RELATIONS.map((relation: Dropdown) => (
                                                             <SelectItem
                                                                 key={relation.value}
                                                                 value={relation.value}
@@ -117,7 +117,7 @@ export default function QuestionnairePage() {
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent>
-                                                        {PARENT.map((relation: any) => (
+                                                        {PARENT.map((relation: Dropdown) => (
                                                             <SelectItem
                                                                 key={relation.value}
                                                                 value={relation.value}

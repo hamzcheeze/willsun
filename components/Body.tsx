@@ -36,8 +36,8 @@ type FormValues = {
 }
 
 const Body = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<Error | null>(null);
+    // const [isLoading, setIsLoading] = useState(false);
+    // const [error, setError] = useState<Error | null>(null);
     const [response, setResponse] = useState(false);
     const [step, setStep] = useState(1);
 
@@ -133,7 +133,7 @@ const Body = () => {
         setStep(step + 1);
     };
 
-    function onSubmit(values: FormValues) {
+    function onSubmit() {
         const currentValues = form.getValues();
         const finalValues = {
             ...stepValues,

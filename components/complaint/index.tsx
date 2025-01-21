@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 // import { useReactToPrint } from 'react-to-print';
 import styles from './complaint.module.css';
 
@@ -20,11 +20,11 @@ interface A4pageProps {
 export const Complaint: React.FC<A4pageProps> = ({ caseData }) => {
     const contentRef = useRef<HTMLDivElement>(null);
     // const reactToPrintFn = useReactToPrint({ contentRef });
-    const [inputValue, setInputValue] = useState('');
-    const maxLength = 50;
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value);
-    };
+    // const [inputValue, setInputValue] = useState('');
+    // const maxLength = 50;
+    // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setInputValue(event.target.value);
+    // };
 
     return (
 <>
