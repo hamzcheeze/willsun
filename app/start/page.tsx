@@ -1,10 +1,10 @@
 // pages/questionnaire.tsx
 'use client';
 
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
     Form,
     FormControl,
@@ -20,21 +20,34 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { PrepareDocs } from '@/components/PrepareDocs';
+import { Input } from '@/components/ui/input';
 
-export interface Relation {
+export interface Dropdown {
     value: string;
     label: string;
 }
 
-export const RELATIONS: Relation[] = [
-    { value: "mom", label: "มารดา" },
-    { value: "marriedDad", label: "บิดาที่สมรสกับมารดา" },
-    { value: "dad", label: "บิดาที่ไม่ได้สมรสกับมารดา" },
+export const RELATIONS: Dropdown[] = [
+    { value: "marriedMom", label: "มารดาที่สมรสกับบิดาท่าน" },
+    { value: "mom", label: "มารดาที่ไม่ได้สมรสกับบิดาท่าน" },
+    { value: "marriedDad", label: "บิดาที่สมรสกับมารดาท่าน" },
+    { value: "dad", label: "บิดาที่ไม่ได้สมรสกับมารดาท่าน" },
     { value: "dadMomInlaw", label: "บิดา/มารดาบุญธรรม" }
 ];
 
+export const PARENT: Dropdown[] = [
+    { value: "aliveBoth", label: "ทั้งบิดาและมารดาผู้ตายยังมีชีวิตอยู่ทั้งคู่" },
+    { value: "deadGrandpa", label: "บิดาเสียชีวิต/มารดาผู้ตายยังมีชีวิตอยู่" },
+    { value: "deadGrandma", label: "บิดามีชีวิต/มารดาผู้ตายเสียชีวิตแล้ว" },
+    { value: "deadBoth", label: "ทั้งบิดาและมารดาผู้ตายเสียชีวิตแล้วทั้งคู่" },
+];
+
+
 export default function QuestionnairePage() {
     const [relation, setRelation] = useState('');
+    const [parentStatus, setParentStatus] = useState('');
+    const [childrenAmount, setChildrenAmount] = useState(0);
+
     const form = useForm();
 
     return (
@@ -45,16 +58,19 @@ export default function QuestionnairePage() {
                 transition={{ duration: 0.5 }}
             >
                 <Card className="max-w-4xl mx-auto">
+                    <CardHeader className="text-3xl font-semibold text-center mt-4">
+                        โปรดตอบคำถามด้านล่าง
+                    </CardHeader>
                     <CardContent className="p-6">
                         <Form {...form}>
                             <form className="space-y-8">
-                                <div className="space-y-4">
+                                <div className="space-y-8">
                                     <FormField
                                         control={form.control}
                                         name="relation"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className="text-xl font-semibold text-center block mb-6">
+                                                <FormLabel className="text-lg font-semibold block mb-4">
                                                     ผู้ตายเป็นอะไรกับท่าน
                                                 </FormLabel>
                                                 <Select
@@ -82,8 +98,67 @@ export default function QuestionnairePage() {
                                         )}
                                     />
                                 </div>
-
-                                {relation && <PrepareDocs relation={relation} />}
+                                <div className="space-y-8">
+                                    <FormField
+                                        control={form.control}
+                                        name="parentStatus"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-lg font-semibold block mb-4">
+                                                    บิดามารดาของผู้ตายยังมีชีวิตอยู่หรือไม่
+                                                </FormLabel>
+                                                <Select
+                                                    onValueChange={(value) => setParentStatus(value)}
+                                                    defaultValue={field.value}
+                                                >
+                                                    <FormControl>
+                                                        <SelectTrigger className="w-full text-lg">
+                                                            <SelectValue placeholder="โปรดเลือก" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        {PARENT.map((relation: any) => (
+                                                            <SelectItem
+                                                                key={relation.value}
+                                                                value={relation.value}
+                                                                className="text-lg"
+                                                            >
+                                                                {relation.label}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <div className="space-y-8">
+                                    <FormField
+                                        control={form.control}
+                                        name="parentStatus"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-lg font-semibold block mb-4">
+                                                    ผู้ตายมีบุตรกี่คน (รวมตัวท่าน)
+                                                </FormLabel>
+                                                <Input
+                                                    {...field}
+                                                    type="number"
+                                                    className="w-full text-lg"
+                                                    placeholder="โปรดระบุจำนวน"
+                                                    onChange={(e) => setChildrenAmount(Number(e.target.value))}
+                                                />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                {relation && parentStatus && childrenAmount > 0 && (
+                                    <PrepareDocs
+                                        relation={relation}
+                                        parentStatus={parentStatus}
+                                        childrenAmount={childrenAmount}
+                                    />
+                                )}
                             </form>
                         </Form>
                     </CardContent>

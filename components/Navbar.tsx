@@ -98,7 +98,8 @@ const Navbar = () => {
               })}
               <li>
                 <NavLink
-                  href="/generate"
+                  // href="/generate"
+                  href="#"
                   className="block font-medium text-lg text-white bg-gray-800 hover:bg-gray-600 active:bg-gray-900 md:inline"
                 >
                   สร้างเอกสาร

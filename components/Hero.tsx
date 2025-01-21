@@ -46,7 +46,6 @@ export default function Hero() {
                             เริ่มต้นใช้งาน
                         </NavLink>
                         <NavLink
-                            target="_blank"
                             href="#"
                             className="text-gray-700 border hover:bg-gray-50 text-lg"
                             scroll={false}
