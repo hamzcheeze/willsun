@@ -5,33 +5,48 @@
   font-style: normal;
 }
 
-.customFont {
-  font-family: 'THSarabunPSK', Arial, sans-serif;
-}
-
-.page {
-  width: 210mm;
-  height: 297mm;
-  margin: 0 auto;
-  padding: 5mm;
-  background-color: #ffffff;
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-  position: relative;
-  font-family: 'THSarabunPSK', Arial, sans-serif;
-  /* Fallback to Arial if font not available */
-  box-sizing: border-box;
-  page-break-after: always;
-}
-
 @media print {
-
   @page {
-    /* margin-top: 10mm;
-    margin-right: 10mm;
-    margin-bottom: 10mm;
-    margin-left: 10mm; */
     margin: 10mm;
   }
+}
+
+.betweenTitle {
+  font-size: 24px;
+  align-self: center;
+}
+
+.bracket {
+  align-items: start;
+  width: auto;
+  height: 134.386px;
+  display: block;
+}
+
+.caseNumber {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 5px;
+}
+
+.circle {
+  font-size: 20px;
+  align-self: flex-end;
+}
+
+.col2 {
+  display: grid;
+  grid-template-columns: 50% auto;
+  gap: 5px;
+  height: 40px;
+}
+
+.courtData {
+  text-align: left;
+}
+
+.customFont {
+  font-family: 'THSarabunPSK', Arial, sans-serif;
 }
 
 .dashedLine {
@@ -48,27 +63,49 @@
   text-align: left;
 }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.date {
+  display: grid;
+  grid-template-columns: 45% fit-content(60px) auto fit-content(60px) 100px fit-content(80px) auto;
+  gap: 5px;
+  height: 40px;
+}
+
+.gridBetween {
+  display: grid;
+  grid-template-columns: 50px 30px auto fit-content(60px);
+  margin-top: 10px;
+}
+
+.gridContainer2left {
+  display: grid;
+  grid-template-columns: 5% 5% auto;
 }
 
 .leftColumn {
   flex: 1;
-  /* Take up remaining space */
 }
 
-.centerColumn {
-  flex: 1;
-  text-align: center;
-  /* margin: auto; */
+.page {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto;
+  padding: 5mm;
+  background-color: #ffffff;
+  position: relative;
+  font-family: 'THSarabunPSK', Arial, sans-serif;
+  box-sizing: border-box;
+  page-break-after: always;
 }
 
 .rightColumn {
   flex: 1;
-  /* Take up remaining space */
   text-align: right;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .symbol {
@@ -78,71 +115,73 @@
   margin: 0 auto;
 }
 
-.gridContainer2left {
-  display: grid;
-  grid-template-columns: 5% 5% auto;
-  /* gap: 5px; */
-  /* height: 40px; */
-  /* Add space between columns */
-}
-
-.col2 {
-  display: grid;
-  grid-template-columns: 50% auto;
-  gap: 5px;
-  height: 40px;
-}
-
-.caseNumber {
-  display: grid;
-  grid-template-columns: auto auto;
-  gap: 5px;
-}
-
-.date {
-  display: grid;
-  grid-template-columns: 45% fit-content(60px) auto fit-content(60px) 100px fit-content(80px) auto;
-  gap: 5px;
-  height: 40px;
-}
-
-.caseNumber {
-  font-size: 24px;
-}
-
-.circle {
-  font-size: 20px;
-  align-self: flex-end;
-}
-
 .title {
   font-size: 24px;
-  /* text-align: right; */
   align-self: flex-end;
 }
 
-.courtData {
-  /* padding-left: 30; */
-  text-align: left;
+#address {
+  display: grid;
+  grid-template-columns: fit-content(200px) auto fit-content(200px) auto fit-content(200px) auto;
+  gap: 5px;
+  height: 40px;
 }
 
-.gridBetween {
+#amount {
   display: grid;
-  grid-template-columns: 50px 30px auto fit-content(60px);
-  /* gap: 5px; */
+  grid-template-columns: fit-content(200px) auto fit-content(200px) auto fit-content(200px);
+  gap: 5px;
+  height: 40px;
+}
+
+#appellant {
+  vertical-align: top;
+}
+
+#blankSpace {
+  display: grid;
+  grid-template-columns: auto;
+  height: 40px;
+}
+
+#canHide {
+  visibility: hidden;
+}
+
+#charge {
+  display: grid;
+  grid-template-columns: fit-content(200px) auto;
+  gap: 5px;
   margin-top: 10px;
 }
 
-.betweenTitle {
-  font-size: 24px;
-  align-self: center;
+#col3Tab {
+  display: grid;
+  grid-template-columns: 50px fit-content(100px) auto;
+  gap: 5px;
+  height: 40px;
 }
 
-.bracket {
-  align-items: start;
-  width: auto;
-  height: 134.386px;
-  display: block;
+#fax {
+  display: grid;
+  grid-template-columns: fit-content(200px) auto fit-content(200px) auto;
+  gap: 5px;
+  height: 40px;
+}
+
+#idBox {
+  font-size: 24px;
+  border: 1px solid black;
+  align-self: flex-end;
+  text-align: center;
+}
+
+#idNumber {
+  display: grid;
+  grid-template-columns: fit-content(200px) 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px fit-content(200px);
+  gap: 5px;
+  height: 30px;
+  margin-top: 10px;
 }
 
 #item1 {
@@ -155,75 +194,15 @@
   grid-column: 2;
 }
 
-/* #canHide {
-    visibility: hidden;
-  } */
-
-#charge {
+#purpose {
   display: grid;
-  grid-template-columns: fit-content(200px) auto;
-  gap: 5px;
-  margin-top: 10px;
-}
-
-#amount {
-  display: grid;
-  grid-template-columns: fit-content(200px) auto fit-content(200px) auto fit-content(200px);
-  gap: 5px;
+  grid-template-columns: fit-content(200px);
   height: 40px;
-}
-
-#col3Tab {
-  display: grid;
-  grid-template-columns: 50px fit-content(100px) auto;
-  gap: 5px;
-  height: 40px;
-}
-
-#idNumber {
-  display: grid;
-  grid-template-columns: fit-content(200px) 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px fit-content(200px);
-  gap: 5px;
-  height: 30px;
-  margin-top: 10px;
-}
-
-#idBox {
-  font-size: 24px;
-  border: 1px solid black;
-  align-self: flex-end;
-  text-align: center;
 }
 
 #race {
   display: grid;
   grid-template-columns: fit-content(200px) auto fit-content(200px) auto fit-content(200px) auto fit-content(200px) auto fit-content(200px);
   gap: 5px;
-  height: 40px;
-}
-
-#address {
-  display: grid;
-  grid-template-columns: fit-content(200px) auto fit-content(200px) auto fit-content(200px) auto;
-  gap: 5px;
-  height: 40px;
-}
-
-#fax {
-  display: grid;
-  grid-template-columns: fit-content(200px) auto fit-content(200px) auto;
-  gap: 5px;
-  height: 40px;
-}
-
-#blankSpace {
-  display: grid;
-  grid-template-columns: auto;
-  height: 40px;
-}
-
-#purpose {
-  display: grid;
-  grid-template-columns: fit-content(200px);
   height: 40px;
 }

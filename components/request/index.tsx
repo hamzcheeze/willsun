@@ -27,7 +27,7 @@ export const RequestForm: React.FC<A4pageProps> = ({ caseData }) => {
     // };
 
     return (
-        <>  
+        <>
             {/* <br /> */}
             <button onClick={() => reactToPrintFn()}>Print</button>
             <div ref={contentRef} className={styles.page}>
@@ -103,9 +103,11 @@ export const RequestForm: React.FC<A4pageProps> = ({ caseData }) => {
                         {caseData?.plaintiff}{caseData?.plaintiff.length}
                     </div>
                     <div id="item6" className={styles.title}>โจทก์</div>
+                    <div className={styles.dashedLineLeft}>
+                        นายจ่อย ใจดี ร้องขอให้ศาลมีคำสั่งตั้งผู้ร้องเป็นผู้จัดการมรดกของ นางรี จอยซ์ (โดยไม่มีพินัยกรรม)
+                    </div>
+                    <div id="appellant" className={styles.title}>ผู้ร้อง</div>
                     <div id={styles.canHide} className={styles.dashedLineLeft}></div>
-                    <div id={styles.canHide} className={styles.title}>ผู้ร้อง</div>
-                    <div id={styles.canHide}></div>
                     <div id={styles.canHide} className={styles.title}></div>
                     <div id="item11" className={styles.dashedLineLeft}></div>
                     <div id="item12" className={styles.title}>จำเลย</div>
