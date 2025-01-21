@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { A4Card } from '@/components/A4Card';
+import { A4page } from '@/components/A4page';
 import { useForm } from "react-hook-form"
 import { Check } from "lucide-react"
 
@@ -363,7 +363,7 @@ const Body = () => {
             <div className="col-span-5 mr-4">
                 <Card>
                     <CardHeader>
-                        <h1 className="text-4xl font-bold mb-5 text-center">สร้างเอกสาร</h1>
+                        <h1 className="text-3xl font-bold mb-5 text-center">สร้างเอกสาร</h1>
                     </CardHeader>
                     <CardContent>
                         {renderStepper()}
@@ -408,7 +408,13 @@ const Body = () => {
                 </Card>
             </div>
             <div className="col-span-7">
-                {response ? (
+                <Card className="overflow-y-auto">
+                    <CardContent>
+                        <A4page />
+                    </CardContent>
+                </Card>
+
+                {/* {response ? (
                     <Card className="overflow-y-auto">
                         <CardContent>
                             <A4Card />
@@ -416,7 +422,7 @@ const Body = () => {
                     </Card>
                 ) : (
                     <></>
-                )}
+                )} */}
             </div>
         </section>
     );
