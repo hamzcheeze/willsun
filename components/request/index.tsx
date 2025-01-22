@@ -1,31 +1,77 @@
 'use client';
 
-import React, { useRef } from 'react';
+import { FC, useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import styles from './request.module.css';
 
 interface CaseData {
-    black: string;
+    blackCase: string;
     year: string;
-    courtName: string;
     content: string;
     plaintiff: string;
+    province: string;
+    amphur: string;
+    courtName: string;
+    title: string;
+    firstName: string;
+    lastName: string;
+    idNumber: string;
+    birthDate: string;
 }
 
-// Define props interface for the component
-interface A4pageProps {
+interface CaseProps {
     caseData?: CaseData;
 }
 
-export const RequestForm: React.FC<A4pageProps> = ({ caseData }) => {
+const THAI_MONTHS = [
+    'มกราคม', 
+    'กุมภาพันธ์', 
+    'มีนาคม', 
+    'เมษายน', 
+    'พฤษภาคม', 
+    'มิถุนายน', 
+    'กรกฎาคม', 
+    'สิงหาคม', 
+    'กันยายน', 
+    'ตุลาคม', 
+    'พฤศจิกายน', 
+    'ธันวาคม'
+];
+
+export const RequestForm: FC<CaseProps> = ({ caseData }) => {
     const contentRef = useRef<HTMLDivElement>(null);
     const reactToPrintFn = useReactToPrint({ contentRef });
+    
+    const idNumber = caseData?.idNumber.split('') || [];
+    const removeZero = caseData?.birthDate?.replace(/-0+/g, '-');
+    const today = new Date();
+
+    const calculateAge = (birthDate: string) => {
+        const birth = new Date(birthDate);
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        return age;
+    };
+    const age = caseData?.birthDate ? calculateAge(caseData.birthDate) : '';
+
+    let [birthYear, birthMonth, birthDay] = removeZero?.split('-') || [];
+    birthMonth = THAI_MONTHS[parseInt(birthMonth) - 1] || '';
+    birthYear = birthYear ? (parseInt(birthYear) + 543).toString() : '';
+
+    const nowDay = today.getDate();
+    const nowMonth = today.getMonth() + 1;
+    const nowThaiMonth = THAI_MONTHS[nowMonth - 1] || '';
+    const nowYear = today.getFullYear() + 543;
+
     // const [inputValue, setInputValue] = useState('');
     // const maxLength = 50;
     // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //     setInputValue(event.target.value);
     // };
-
+    
     return (
         <>
             {/* <br /> */}
@@ -55,7 +101,7 @@ export const RequestForm: React.FC<A4pageProps> = ({ caseData }) => {
                         <div className={styles.caseNumber}>
                             <div className={styles.title}>คดีหมายเลขดำที่</div>
                             <div className={styles.dashedLine}>
-                                {caseData?.black}/{caseData?.year}
+                                {caseData?.blackCase}/{caseData?.year}
                             </div>
                             {/* <div className={styles.dashedLine}><center>{caseData.year = "67" ? "๖๗" : "xxx"}</center></div> */}
                             <div className={styles.title}>คดีหมายเลขแดงที่</div>
@@ -75,19 +121,18 @@ export const RequestForm: React.FC<A4pageProps> = ({ caseData }) => {
                     <div className={styles.date}>
                         <div></div>
                         <div className={styles.title}>วันที่</div>
-                        <div className={styles.dashedLine}>
-                        </div>
+                        <div className={styles.dashedLine}>{nowDay}</div>
                         <div className={styles.title}>เดือน</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{nowThaiMonth}</div>
                         <div className={styles.title}>พุทธศักราช</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{nowYear}</div>
                     </div>
                 </div>
                 <div className={styles.rightColumn}>
                     <div className={styles.col2}>
                         <div className={styles.title}>ความ</div>
                         <div className={styles.dashedLine}>
-                            <div className={styles.courtData}>{caseData?.content || "เทส"}</div>
+                            <div className={styles.courtData}>{caseData?.content}</div>
                         </div>
                     </div>
                 </div>
@@ -100,7 +145,7 @@ export const RequestForm: React.FC<A4pageProps> = ({ caseData }) => {
                     <div id="item3"></div>
                     <div id="item4"></div>
                     <div id="item5" className={styles.dashedLineLeft}>
-                        {caseData?.plaintiff}{caseData?.plaintiff.length}
+                        {/* {caseData?.plaintiff}{caseData?.plaintiff.length} */}
                     </div>
                     <div id="item6" className={styles.title}>โจทก์</div>
                     <div className={styles.dashedLineLeft}>
@@ -118,26 +163,26 @@ export const RequestForm: React.FC<A4pageProps> = ({ caseData }) => {
                         <div></div>
                         <div className={styles.title}>ข้าพเจ้า</div>
                         <div className={styles.dashedLine}>
-                            <div className={styles.courtData}>นายจ่อย ใจดี</div>
+                            <div className={styles.courtData}>{caseData?.title}{caseData?.firstName} {caseData?.lastName}</div>
                         </div>
                     </div>
                 </div>
 
                 <div id={styles.idNumber}>
                     <div className={styles.title}>เลขประจำตัวประชาชน</div>
-                    <div id={styles.idBox}>1</div>
-                    <div id={styles.idBox}>5</div>
-                    <div id={styles.idBox}>2</div>
-                    <div id={styles.idBox}>9</div>
-                    <div id={styles.idBox}>9</div>
-                    <div id={styles.idBox}>0</div>
-                    <div id={styles.idBox}>0</div>
-                    <div id={styles.idBox}>5</div>
-                    <div id={styles.idBox}>1</div>
-                    <div id={styles.idBox}>9</div>
-                    <div id={styles.idBox}>5</div>
-                    <div id={styles.idBox}>1</div>
-                    <div id={styles.idBox}>9</div>
+                    <div id={styles.idBox}>{idNumber?.[0] || '9'}</div>
+                    <div id={styles.idBox}>{idNumber?.[1] || '9'}</div>
+                    <div id={styles.idBox}>{idNumber?.[2] || '9'}</div>
+                    <div id={styles.idBox}>{idNumber?.[3] || '9'}</div>
+                    <div id={styles.idBox}>{idNumber?.[4] || '9'}</div>
+                    <div id={styles.idBox}>{idNumber?.[5] || '9'}</div>
+                    <div id={styles.idBox}>{idNumber?.[6] || '9'}</div>
+                    <div id={styles.idBox}>{idNumber?.[7] || '9'}</div>
+                    <div id={styles.idBox}>{idNumber?.[8] || '9'}</div>
+                    <div id={styles.idBox}>{idNumber?.[9] || '9'}</div>
+                    <div id={styles.idBox}>{idNumber?.[10] || '9'}</div>
+                    <div id={styles.idBox}>{idNumber?.[11] || '9'}</div>
+                    <div id={styles.idBox}>{idNumber?.[12] || '9'}</div>
                     <div className={styles.title}>ผู้ร้อง</div>
                 </div>
 
@@ -149,8 +194,19 @@ export const RequestForm: React.FC<A4pageProps> = ({ caseData }) => {
                         <div className={styles.dashedLine}></div>
                         <div className={styles.title}>อาชีพ</div>
                         <div className={styles.dashedLine}></div>
+                    </div>
+                </div>
+
+                <div className={styles.leftColumn}>
+                    <div id={styles.birthdate}>
+                        <div className={styles.title}>เกิดวันที่</div>
+                        <div className={styles.dashedLine}>{birthDay}</div>
+                        <div className={styles.title}>เดือน</div>
+                        <div className={styles.dashedLine}>{birthMonth}</div>
+                        <div className={styles.title}>พ.ศ.</div>
+                        <div className={styles.dashedLine}>{birthYear}</div>
                         <div className={styles.title}>อายุ</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{age}</div>
                         <div className={styles.title}>ปี</div>
                     </div>
                 </div>

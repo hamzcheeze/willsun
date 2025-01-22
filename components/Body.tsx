@@ -12,12 +12,44 @@ import {
     FormItem,
     FormLabel,
 } from "@/components/ui/form"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import { format } from "date-fns"
+import { th } from "date-fns/locale";
+import { CalendarIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { A4page } from '@/components/A4page';
 import { useForm } from "react-hook-form"
 import { Check } from "lucide-react"
+import { RequestForm } from "@/components/request";
+import courtData from "@/data/thai-court.json";
+import provincesData from '@/data/provinces.json';
+import districtsData from '@/data/districts.json';
+import subdistrictsData from '@/data/subdistricts.json';
+
+interface Dropdown {
+    value: string;
+    label: string;
+}
+
+const TITLE: Dropdown[] = [
+    { value: "mr", label: "นาย" },
+    { value: "ms", label: "นางสาว" },
+    { value: "mrs", label: "นาง" },
+];
 
 // Remove zod entirely
 type FormValues = {
@@ -35,11 +67,46 @@ type FormValues = {
     field12: string;
 }
 
+interface CaseData {
+    blackCase: string;
+    year: string;
+    content: string;
+    plaintiff: string;
+    province: string;
+    amphur: string;
+    courtName: string;
+    title: string;
+    firstName: string;
+    lastName: string;
+    idNumber: string;
+    birthDate: string;
+}
+
 const Body = () => {
+    const [formData, setFormData] = useState<CaseData>({
+        blackCase: "",
+        year: "2568",
+        content: "แพ่ง",
+        plaintiff: "",
+        province: "",
+        amphur: "",
+        courtName: "",
+        title: "",
+        firstName: "",
+        lastName: "",
+        idNumber: "",
+        birthDate: "",
+    });
     // const [isLoading, setIsLoading] = useState(false);
     // const [error, setError] = useState<Error | null>(null);
     const [response, setResponse] = useState(false);
     const [step, setStep] = useState(1);
+    const [selectedProvince, setSelectedProvince] = useState<string>('');
+    const [selectedAmphur, setSelectedAmphur] = useState<string>('');
+    const [amphurs, setAmphurs] = useState<{ name: string; court: string[] }[]>([]);
+    const [courts, setCourts] = useState<string[]>([]);
+    const [date, setDate] = useState<Date>()
+    const getYear = new Date().getFullYear();
 
     const [stepValues, setStepValues] = useState<FormValues>({
         field1: '',
@@ -105,31 +172,32 @@ const Body = () => {
     };
 
     const handleContinue = () => {
-        const currentValues = form.getValues();
-        setStepValues({
-            ...stepValues,
-            ...currentValues
-        });
+        console.log(formData);
+        // const currentValues = form.getValues();
+        // setStepValues({
+        //     ...stepValues,
+        //     ...currentValues
+        // });
 
-        if (step === 1) {
-            form.reset({
-                field4: stepValues.field4,
-                field5: stepValues.field5,
-                field6: stepValues.field6,
-            });
-        } else if (step === 2) {
-            form.reset({
-                field7: stepValues.field7,
-                field8: stepValues.field8,
-                field9: stepValues.field9,
-            });
-        } else if (step === 3) {
-            form.reset({
-                field10: stepValues.field10,
-                field11: stepValues.field11,
-                field12: stepValues.field12,
-            });
-        }
+        // if (step === 1) {
+        //     form.reset({
+        //         field4: stepValues.field4,
+        //         field5: stepValues.field5,
+        //         field6: stepValues.field6,
+        //     });
+        // } else if (step === 2) {
+        //     form.reset({
+        //         field7: stepValues.field7,
+        //         field8: stepValues.field8,
+        //         field9: stepValues.field9,
+        //     });
+        // } else if (step === 3) {
+        //     form.reset({
+        //         field10: stepValues.field10,
+        //         field11: stepValues.field11,
+        //         field12: stepValues.field12,
+        //     });
+        // }
         setStep(step + 1);
     };
 
@@ -164,19 +232,310 @@ const Body = () => {
             // setStep(1);
         }
     }
+
+    const handleProvinceChange = (value: string) => {
+        setSelectedProvince(value);
+        setFormData({ ...formData, province: value });
+        const province = courtData.province.find(p => p.name === value);
+        setAmphurs(province ? province.amphur : []);
+        setSelectedAmphur('');
+        setCourts([]);
+    };
+
+    const handleAmphurChange = (value: string) => {
+        setSelectedAmphur(value);
+        setFormData({ ...formData, amphur: value });
+        const amphur = amphurs.find(a => a.name === value);
+        setCourts(amphur ? amphur.court : []);
+    };
+
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
     const renderStepContent = (currentStep: number) => {
         switch (currentStep) {
             case 1:
                 return (
                     <>
-                        <FormField
+                        <div className="grid grid-cols-12 gap-2">
+                            <div className="w-full col-span-3">
+                                <FormField
+                                    name="title"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>คำนำหน้า</FormLabel>
+                                            <Select
+                                                onValueChange={(value) =>
+                                                    handleChange({
+                                                        target: { name: "title", value },
+                                                    } as React.ChangeEvent<HTMLInputElement>)
+                                                }
+                                                defaultValue={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger className="w-full">
+                                                        <SelectValue placeholder="โปรดเลือก" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {TITLE.map((item: any) => (
+                                                        <SelectItem key={item.value} value={item.label}>
+                                                            {item.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="w-full col-span-4">
+                                <FormField
+                                    name="firstName"
+                                    render={() => (
+                                        <FormItem className="flex-1">
+                                            <FormLabel>ชื่อ</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    name="firstName"
+                                                    onChange={handleChange}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="w-full col-span-5">
+                                <FormField
+                                    name="lastName"
+                                    render={() => (
+                                        <FormItem className="flex-1">
+                                            <FormLabel>นามสกุล</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    name="lastName"
+                                                    onChange={handleChange}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-12 gap-2">
+                            <div className="w-full col-span-7">
+                                <FormField
+                                    name="birthDate"
+                                    render={() => (
+                                        <FormItem >
+                                            <FormLabel>วันเกิด</FormLabel>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <Button
+                                                        variant={"outline"}
+                                                        className={cn(
+                                                            "w-full justify-start text-left font-normal",
+                                                            !date && "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        <CalendarIcon />
+                                                        {date ? format(
+                                                            date, "PPP", { locale: th }
+                                                        ) : <span>เลือกวันที่</span>
+                                                        }
+                                                    </Button>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-auto p-0">
+                                                    <Calendar
+                                                        locale={th}
+                                                        mode="single"
+                                                        selected={date}
+                                                        onSelect={(selectedDate) => {
+                                                            setDate(selectedDate);
+                                                            if (selectedDate) {
+                                                                handleChange({
+                                                                    target: {
+                                                                        name: "birthDate",
+                                                                        value: format(selectedDate, "yyyy-MM-dd")
+                                                                    }
+                                                                } as React.ChangeEvent<HTMLInputElement>);
+                                                            }
+                                                        }}
+                                                        captionLayout="dropdown-buttons"
+                                                        fromYear={getYear - 100}
+                                                        toYear={getYear}
+                                                    />
+                                                </PopoverContent>
+                                            </Popover>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="w-full col-span-5">
+                                <FormField
+                                    name="idNumber"
+                                    render={() => (
+                                        <FormItem>
+                                            <FormLabel>เลขประจำตัวประชาชน</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    name="idNumber"
+                                                    onChange={handleChange}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-12 gap-2">
+                            <div className="w-full col-span-4">
+                                <FormField
+                                    name="race"
+                                    render={() => (
+                                        <FormItem className="flex-1">
+                                            <FormLabel>เชื้อชาติ</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    name="race"
+                                                    onChange={handleChange}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="w-full col-span-4">
+                                <FormField
+                                    name="nationality"
+                                    render={() => (
+                                        <FormItem className="flex-1">
+                                            <FormLabel>สัญชาติ</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    name="nationality"
+                                                    onChange={handleChange}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="w-full col-span-4">
+                                <FormField
+                                    name="occupation"
+                                    render={() => (
+                                        <FormItem className="flex-1">
+                                            <FormLabel>อาชีพ</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    name="occupation"
+                                                    onChange={handleChange}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-12 gap-2">
+                            <div className="w-full col-span-12">
+                                <FormField
+                                    name="occupation"
+                                    render={() => (
+                                        <FormItem className="flex-1">
+                                            <FormLabel>ที่อยู่</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    name="occupation"
+                                                    placeholder="บ้านเลขที่ / อาคาร / หมู่บ้าน"
+                                                    onChange={handleChange}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-12 gap-2">
+                            <div className="w-full col-span-4">
+                                <FormField
+                                    name="homeNumber"
+                                    render={() => (
+                                        <FormItem className="flex-1">
+                                            <FormLabel>หมู่ที่</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    name="homeNumber"
+                                                    onChange={handleChange}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="w-full col-span-4">
+                                <FormField
+                                    name="road"
+                                    render={() => (
+                                        <FormItem className="flex-1">
+                                            <FormLabel>ถนน</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    name="road"
+                                                    onChange={handleChange}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="w-full col-span-4">
+                                <FormField
+                                    name="alley"
+                                    render={() => (
+                                        <FormItem className="flex-1">
+                                            <FormLabel>ตรอก/ซอย</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    name="alley"
+                                                    onChange={handleChange}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                        </div>
+                        {/* <FormField
                             name="field1"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Field1</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
+                                    <FormLabel>จังหวัด</FormLabel>
+                                    <Select
+                                        onValueChange={(value) => handleProvinceChange(value)}
+                                        defaultValue={field.value}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="โปรดเลือก" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {courtData.province.map((province: any) => (
+                                                <SelectItem key={province.name} value={province.name}>
+                                                    {province.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                 </FormItem>
                             )}
                         />
@@ -184,10 +543,25 @@ const Body = () => {
                             name="field2"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Field2</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
+                                    <FormLabel>อำเภอ</FormLabel>
+                                    <Select
+                                        onValueChange={(value) => handleAmphurChange(value)}
+                                        defaultValue={field.value}
+                                        disabled={!amphurs.length}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="โปรดเลือก" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {amphurs.map((amphur) => (
+                                                <SelectItem key={amphur.name} value={amphur.name}>
+                                                    {amphur.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                 </FormItem>
                             )}
                         />
@@ -195,13 +569,32 @@ const Body = () => {
                             name="field3"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Field3</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
+                                    <FormLabel>ศาล</FormLabel>
+                                    <Select
+                                        onValueChange={(value) =>
+                                            handleChange({
+                                                target: { name: "courtName", value },
+                                            } as React.ChangeEvent<HTMLInputElement>)
+                                        }
+                                        defaultValue={field.value}
+                                        disabled={!courts.length}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="โปรดเลือก" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {courts.map((court) => (
+                                                <SelectItem key={court} value={court}>
+                                                    {court}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                 </FormItem>
                             )}
-                        />
+                        /> */}
                     </>
                 );
             case 2:
@@ -345,12 +738,12 @@ const Body = () => {
                             )}
                         </div>
                         <span className="ml-2 mr-2 hidden 2xl:inline">
-                            {stepNumber === 1 ? 'Create' :
-                                stepNumber === 2 ? 'Review' :
-                                    stepNumber === 3 ? 'Verify' : 'Submit'}
+                            {stepNumber === 1 ? 'ผู้ร้อง' :
+                                stepNumber === 2 ? 'ผู้ตาย' :
+                                    stepNumber === 3 ? 'ทรัพย์มรดก' : 'เครือญาติ'}
                         </span>
                         {stepNumber < 4 && (
-                            <div className={`w-10 h-0.5 ${step > stepNumber ? 'bg-blue-500' : 'bg-gray-300'}`} />
+                            <div className={`w-6 h-0.5 ${step > stepNumber ? 'bg-blue-500' : 'bg-gray-300'}`} />
                         )}
                     </div>
                 ))}
@@ -367,9 +760,8 @@ const Body = () => {
                     </CardHeader>
                     <CardContent>
                         {renderStepper()}
-
                         <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                                 {renderStepContent(step)}
                                 <div className="flex justify-between">
                                     {step > 1 && (
@@ -410,7 +802,7 @@ const Body = () => {
             <div className="col-span-7">
                 <Card className="overflow-y-auto">
                     <CardContent>
-                        <A4page />
+                        <RequestForm caseData={formData} />
                     </CardContent>
                 </Card>
 

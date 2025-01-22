@@ -138,6 +138,13 @@
   vertical-align: top;
 }
 
+#birthdate {
+  display: grid;
+  grid-template-columns: fit-content(200px) auto fit-content(200px) auto fit-content(200px) auto fit-content(200px) auto fit-content(200px);
+  gap: 5px;
+  height: 40px;
+}
+
 #blankSpace {
   display: grid;
   grid-template-columns: auto;
@@ -202,7 +209,7 @@
 
 #race {
   display: grid;
-  grid-template-columns: fit-content(200px) auto fit-content(200px) auto fit-content(200px) auto fit-content(200px) auto fit-content(200px);
+  grid-template-columns: fit-content(200px) auto fit-content(200px) auto fit-content(200px) auto fit-content(200px);
   gap: 5px;
   height: 40px;
 }
