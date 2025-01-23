@@ -9,14 +9,26 @@ interface CaseData {
     year: string;
     content: string;
     plaintiff: string;
+    address: string;
+    villageNo: string;
+    road: string;
+    alley: string;
     province: string;
-    amphur: string;
+    district: string;
+    subDistrict: string;
+    postalCode: string;
     courtName: string;
     title: string;
     firstName: string;
     lastName: string;
     idNumber: string;
     birthDate: string;
+    race: string;
+    nationality: string;
+    occupation: string;
+    tel: string;
+    fax: string;
+    email: string;
 }
 
 interface CaseProps {
@@ -24,24 +36,24 @@ interface CaseProps {
 }
 
 const THAI_MONTHS = [
-    'มกราคม', 
-    'กุมภาพันธ์', 
-    'มีนาคม', 
-    'เมษายน', 
-    'พฤษภาคม', 
-    'มิถุนายน', 
-    'กรกฎาคม', 
-    'สิงหาคม', 
-    'กันยายน', 
-    'ตุลาคม', 
-    'พฤศจิกายน', 
+    'มกราคม',
+    'กุมภาพันธ์',
+    'มีนาคม',
+    'เมษายน',
+    'พฤษภาคม',
+    'มิถุนายน',
+    'กรกฎาคม',
+    'สิงหาคม',
+    'กันยายน',
+    'ตุลาคม',
+    'พฤศจิกายน',
     'ธันวาคม'
 ];
 
 export const RequestForm: FC<CaseProps> = ({ caseData }) => {
     const contentRef = useRef<HTMLDivElement>(null);
     const reactToPrintFn = useReactToPrint({ contentRef });
-    
+
     const idNumber = caseData?.idNumber.split('') || [];
     const removeZero = caseData?.birthDate?.replace(/-0+/g, '-');
     const today = new Date();
@@ -71,7 +83,7 @@ export const RequestForm: FC<CaseProps> = ({ caseData }) => {
     // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //     setInputValue(event.target.value);
     // };
-    
+
     return (
         <>
             {/* <br /> */}
@@ -149,7 +161,7 @@ export const RequestForm: FC<CaseProps> = ({ caseData }) => {
                     </div>
                     <div id="item6" className={styles.title}>โจทก์</div>
                     <div className={styles.dashedLineLeft}>
-                        นายจ่อย ใจดี ร้องขอให้ศาลมีคำสั่งตั้งผู้ร้องเป็นผู้จัดการมรดกของ นางรี จอยซ์ (โดยไม่มีพินัยกรรม)
+                        {caseData?.title}{caseData?.firstName} {caseData?.lastName} ร้องขอให้ศาลมีคำสั่งตั้งผู้ร้องเป็นผู้จัดการมรดกของ นางรี จอยซ์ (โดยไม่มีพินัยกรรม)
                     </div>
                     <div id="appellant" className={styles.title}>ผู้ร้อง</div>
                     <div id={styles.canHide} className={styles.dashedLineLeft}></div>
@@ -163,7 +175,9 @@ export const RequestForm: FC<CaseProps> = ({ caseData }) => {
                         <div></div>
                         <div className={styles.title}>ข้าพเจ้า</div>
                         <div className={styles.dashedLine}>
-                            <div className={styles.courtData}>{caseData?.title}{caseData?.firstName} {caseData?.lastName}</div>
+                            <div className={styles.courtData}>
+                                {caseData?.title}{caseData?.firstName} {caseData?.lastName}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -189,11 +203,11 @@ export const RequestForm: FC<CaseProps> = ({ caseData }) => {
                 <div className={styles.leftColumn}>
                     <div id={styles.race}>
                         <div className={styles.title}>เชื้อชาติ</div>
-                        <div className={styles.dashedLine}>ไทย</div>
+                        <div className={styles.dashedLine}>{caseData?.race}</div>
                         <div className={styles.title}>สัญชาติ</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.nationality}</div>
                         <div className={styles.title}>อาชีพ</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.occupation}</div>
                     </div>
                 </div>
 
@@ -214,42 +228,42 @@ export const RequestForm: FC<CaseProps> = ({ caseData }) => {
                 <div className={styles.leftColumn}>
                     <div id={styles.address}>
                         <div className={styles.title}>อยู่บ้านเลขที่</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.address}</div>
                         <div className={styles.title}>หมู่ที่</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.villageNo}</div>
                         <div className={styles.title}>ถนน</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.road}</div>
                     </div>
                 </div>
 
                 <div className={styles.leftColumn}>
                     <div id={styles.address}>
                         <div className={styles.title}>ตรอก/ซอย</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.alley}</div>
                         <div className={styles.title}>ตำบล/แขวง</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.subDistrict}</div>
                         <div className={styles.title}>อำเภอ/เขต</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.district}</div>
                     </div>
                 </div>
 
                 <div className={styles.leftColumn}>
                     <div id={styles.address}>
                         <div className={styles.title}>จังหวัด</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.province}</div>
                         <div className={styles.title}>รหัสไปรษณีย์</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.postalCode}</div>
                         <div className={styles.title}>โทรศัพท์</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.tel}</div>
                     </div>
                 </div>
 
                 <div className={styles.leftColumn}>
                     <div id={styles.fax}>
                         <div className={styles.title}>โทรสาร</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.fax}</div>
                         <div className={styles.title}>ไปรษณีย์อิเล็กทรอนิกส์</div>
-                        <div className={styles.dashedLine}></div>
+                        <div className={styles.dashedLine}>{caseData?.email}</div>
                     </div>
                 </div>
 
