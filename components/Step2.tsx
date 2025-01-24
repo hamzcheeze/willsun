@@ -20,7 +20,7 @@ import {
 import { format } from "date-fns"
 import { th } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { calculateAge, cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button';
@@ -85,6 +85,7 @@ const TITLE: IDropdown[] = [
 
 export const Step2 = () => {
     const [date, setDate] = useState<Date>()
+    const [deadDate, setDeadDate] = useState<Date>()
     const getYear = new Date().getFullYear();
     const [deadDistricts, setDeadDistricts] = useState<Array<IDistrict>>([]);
     const [deadSubDistricts, setDeadSubDistricts] = useState<Array<ISubDistrict>>([]);
@@ -117,7 +118,7 @@ export const Step2 = () => {
             d.districtCode == parseInt(districtId)
         );
         setDeadSubDistricts(subDistrict);
-    }
+    };
 
     const handleBirthProvince = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -159,14 +160,24 @@ export const Step2 = () => {
             [name]: districtName,
             courtName: court || "",
         });
-    }
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setDecedentData({
-            ...decedentData,
-            [name]: value,
-        });
+        if (name === "deadDate") {
+            const age = calculateAge(decedentData.birthDate, value);
+            console.log(age)
+            setDecedentData({
+                ...decedentData,
+                [name]: value,
+                age: age,
+            });
+        } else {
+            setDecedentData({
+                ...decedentData,
+                [name]: value,
+            });
+        }
     };
 
     return (
@@ -297,12 +308,12 @@ export const Step2 = () => {
                                             variant={"outline"}
                                             className={cn(
                                                 "w-full justify-start text-left font-normal",
-                                                !date && "text-muted-foreground"
+                                                !deadDate && "text-muted-foreground"
                                             )}
                                         >
                                             <CalendarIcon />
-                                            {date ? format(
-                                                date, "PPP", { locale: th }
+                                            {deadDate ? format(
+                                                deadDate, "PPP", { locale: th }
                                             ) : <span>เลือกวันที่</span>
                                             }
                                         </Button>
@@ -311,9 +322,9 @@ export const Step2 = () => {
                                         <Calendar
                                             locale={th}
                                             mode="single"
-                                            selected={date}
+                                            selected={deadDate}
                                             onSelect={(selectedDate) => {
-                                                setDate(selectedDate);
+                                                setDeadDate(selectedDate);
                                                 if (selectedDate) {
                                                     handleChange({
                                                         target: {

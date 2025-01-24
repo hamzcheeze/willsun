@@ -1,9 +1,12 @@
 'use client';
 
+import styles from './request.module.css';
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
-import styles from './request.module.css';
 import { useCaseStore } from "@/stores/caseStore";
+import { useDecedentStore } from "@/stores/decedentStore";
+import { calculateAge } from "@/lib/utils";
+import moment from 'moment';
 
 const THAI_MONTHS = [
     'มกราคม',
@@ -25,23 +28,18 @@ export const RequestForm = () => {
     const reactToPrintFn = useReactToPrint({ contentRef });
 
     const { formData } = useCaseStore()
+    const { decedentData } = useDecedentStore()
     const caseData = formData;
+    const appellant = `${caseData?.title}${caseData?.firstName} ${caseData?.lastName}`;
+    const decedent = `${decedentData?.title}${decedentData?.firstName} ${decedentData?.lastName}`;
 
     const idNumber = caseData?.idNumber.split('') || [];
     const removeZero = caseData?.birthDate?.replace(/-0+/g, '-');
     const today = new Date();
-
-    const calculateAge = (birthDate: string) => {
-        const birth = new Date(birthDate);
-        let age = today.getFullYear() - birth.getFullYear();
-        const monthDiff = today.getMonth() - birth.getMonth();
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-            age--;
-        }
-        return age;
-    };
-    const age = caseData?.birthDate ? calculateAge(caseData.birthDate) : '';
-
+    const age = caseData?.birthDate ? calculateAge(
+        caseData.birthDate,
+        moment().format('YYYY-MM-DD')
+    ) : '';
     let [birthYear, birthMonth, birthDay] = removeZero?.split('-') || [];
     birthDay = birthDay || '';
     birthMonth = THAI_MONTHS[parseInt(birthMonth) - 1] || '';
@@ -135,7 +133,7 @@ export const RequestForm = () => {
                     </div>
                     <div id="item6" className={styles.title}>โจทก์</div>
                     <div className={styles.dashedLineLeft}>
-                        {caseData?.title}{caseData?.firstName} {caseData?.lastName} ร้องขอให้ศาลมีคำสั่งตั้งผู้ร้องเป็นผู้จัดการมรดกของ นางรี จอยซ์ (โดยไม่มีพินัยกรรม)
+                        {appellant || ""} ร้องขอให้ศาลมีคำสั่งตั้งผู้ร้องเป็นผู้จัดการมรดกของ {decedent || ""} (โดยไม่มีพินัยกรรม)
                     </div>
                     <div id="appellant" className={styles.title}>ผู้ร้อง</div>
                     <div id={styles.canHide} className={styles.dashedLineLeft}></div>

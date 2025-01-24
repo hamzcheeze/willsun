@@ -4,6 +4,7 @@ interface DecedentData {
     title: string;
     firstName: string;
     lastName: string;
+    age: number;
     birthDate: string;
     birthAddress: string;
     birthVillageNo: string;
@@ -33,6 +34,7 @@ const initialState: DecedentData = {
     title: "",
     firstName: "",
     lastName: "",
+    age: 0,
     birthDate: "",
     birthAddress: "",
     birthVillageNo: "",
