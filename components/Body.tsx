@@ -41,8 +41,10 @@ import districtsData from '@/data/districts.json';
 import subdistrictsData from '@/data/subdistricts.json';
 import { create } from 'zustand';
 import { Step1 } from "@/components/Step1";
+import { Step2 } from "@/components/Step2";
 import { RenderStepper } from "@/components/RenderStepper";
-import { useCaseStore } from "@/lib/stores/caseStore";
+import { useCaseStore } from "@/stores/caseStore";
+import { useDecedentStore } from "@/stores/decedentStore";
 
 const Body = () => {
     const form = useForm();
@@ -60,15 +62,16 @@ const Body = () => {
     //     idNumber: "",
     //     birthDate: "",
     // });
-    const { formData, setFormData } = useCaseStore()
     // const [isLoading, setIsLoading] = useState(false);
     // const [error, setError] = useState<Error | null>(null);
+    const { formData, setFormData } = useCaseStore()
+    const { decedentData, setDecedentData } = useDecedentStore()
     const [response, setResponse] = useState(false);
     const [step, setStep] = useState(1);
     const [selectedProvince, setSelectedProvince] = useState<string>('');
     const [selectedAmphur, setSelectedAmphur] = useState<string>('');
     const [amphurs, setAmphurs] = useState<{ name: string; court: string[] }[]>([]);
-    const [courts, setCourts] = useState<string[]>([]);
+    // const [courts, setCourts] = useState<string[]>([]);
     const [date, setDate] = useState<Date>()
     const getYear = new Date().getFullYear();
 
@@ -78,6 +81,7 @@ const Body = () => {
 
     const handleContinue = () => {
         console.log(formData);
+        console.log(decedentData);
         setStep(step + 1);
     };
 
@@ -102,57 +106,15 @@ const Body = () => {
     // };
 
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
-
     const renderStepContent = (currentStep: number) => {
         switch (currentStep) {
             case 1:
                 return (
-                    <Step1 handleChange={handleChange} />
+                    <Step1 />
                 );
             case 2:
                 return (
-                    <>
-                        <FormField
-                            name="field4"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Field4</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            name="field5"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Field5</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            name="field6"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Field6</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                    </>
+                    <Step2 />
                 );
             case 3:
                 return (
@@ -242,7 +204,7 @@ const Body = () => {
     return (
         <section className="grid grid-cols-12 mb-12">
             <div className="col-span-5 mr-4">
-                <Card>
+                <Card className="overflow-y-auto h-[314mm]">
                     <CardHeader>
                         <h1 className="text-3xl font-bold mb-5 text-center">สร้างเอกสาร</h1>
                     </CardHeader>
@@ -290,7 +252,7 @@ const Body = () => {
             <div className="col-span-7">
                 <Card className="overflow-y-auto">
                     <CardContent>
-                        <RequestForm caseData={formData} />
+                        <RequestForm />
                     </CardContent>
                 </Card>
 

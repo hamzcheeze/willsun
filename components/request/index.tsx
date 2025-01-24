@@ -3,37 +3,7 @@
 import { FC, useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import styles from './request.module.css';
-
-interface CaseData {
-    blackCase: string;
-    year: string;
-    content: string;
-    plaintiff: string;
-    address: string;
-    villageNo: string;
-    road: string;
-    alley: string;
-    province: string;
-    district: string;
-    subDistrict: string;
-    postalCode: string;
-    courtName: string;
-    title: string;
-    firstName: string;
-    lastName: string;
-    idNumber: string;
-    birthDate: string;
-    race: string;
-    nationality: string;
-    occupation: string;
-    tel: string;
-    fax: string;
-    email: string;
-}
-
-interface CaseProps {
-    caseData?: CaseData;
-}
+import { useCaseStore } from "@/stores/caseStore";
 
 const THAI_MONTHS = [
     'มกราคม',
@@ -50,9 +20,12 @@ const THAI_MONTHS = [
     'ธันวาคม'
 ];
 
-export const RequestForm: FC<CaseProps> = ({ caseData }) => {
+export const RequestForm = () => {
     const contentRef = useRef<HTMLDivElement>(null);
     const reactToPrintFn = useReactToPrint({ contentRef });
+
+    const { formData, setFormData } = useCaseStore()
+    const caseData = formData;
 
     const idNumber = caseData?.idNumber.split('') || [];
     const removeZero = caseData?.birthDate?.replace(/-0+/g, '-');
@@ -270,6 +243,22 @@ export const RequestForm: FC<CaseProps> = ({ caseData }) => {
                 <div className={styles.leftColumn}>
                     <div className={styles.title}>ขอยื่นคำร้อง มีข้อความที่จะกล่าวต่อไปนี้</div>
                     <div id={styles.blankSpace}>
+                        <div className={styles.dashedLine}>1</div>
+                        <div className={styles.dashedLine}>2</div>
+                        <div className={styles.dashedLine}>3</div>
+                        <div className={styles.dashedLine}>4</div>
+                        <div className={styles.dashedLine}>1</div>
+                        <div className={styles.dashedLine}>2</div>
+                        <div className={styles.dashedLine}>3</div>
+                        <div className={styles.dashedLine}>4</div>
+                        <div className={styles.dashedLine}>1</div>
+                        <div className={styles.dashedLine}>2</div>
+                        <div className={styles.dashedLine}>3</div>
+                        <div className={styles.dashedLine}>4</div>
+                        <div className={styles.dashedLine}>1</div>
+                        <div className={styles.dashedLine}>2</div>
+                        <div className={styles.dashedLine}>3</div>
+                        <div className={styles.dashedLine}>4</div>
                         <div className={styles.dashedLine}>1</div>
                         <div className={styles.dashedLine}>2</div>
                         <div className={styles.dashedLine}>3</div>
