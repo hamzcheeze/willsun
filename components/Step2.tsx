@@ -1,6 +1,5 @@
 
 import {
-    Form,
     FormControl,
     FormField,
     FormItem,
@@ -18,7 +17,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { format, set } from "date-fns"
+import { format } from "date-fns"
 import { th } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -26,9 +25,6 @@ import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { useForm } from "react-hook-form"
-import { Check } from "lucide-react"
-import { RequestForm } from "@/components/request";
 import courtData from "@/data/thai-court.json";
 import provincesData from '@/data/provinces.json';
 import districtsData from '@/data/districts.json';
@@ -54,6 +50,27 @@ interface IDistrict {
     postalCode: number;
 }
 
+interface IProvince {
+    id: number;
+    provinceCode: number;
+    provinceNameTh: string;
+    provinceNameEn: string;
+}
+
+// interface ICourt {
+//     province: [
+//         {
+//             name: string,
+//             amphur: [
+//                 {
+//                     name: string,
+//                     court: string[]
+//                 }
+//             ]
+//         }
+//     ]
+// }
+
 interface IDropdown {
     value: string;
     label: string;
@@ -73,7 +90,6 @@ export const Step2 = () => {
     const [deadSubDistricts, setDeadSubDistricts] = useState<Array<ISubDistrict>>([]);
     const [birthDistricts, setBirthDistricts] = useState<Array<IDistrict>>([]);
     const [birthSubDistricts, setBirthSubDistricts] = useState<Array<ISubDistrict>>([]);
-    const [court, setCourt] = useState<string>("");
     const { decedentData, setDecedentData } = useDecedentStore()
 
     const handleDeadProvince = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,8 +99,8 @@ export const Step2 = () => {
             ...decedentData,
             [name]: provinceName,
         });
-        const district: IDistrict[] = districtsData.filter((d: any) =>
-            d.provinceCode == provinceId
+        const district: IDistrict[] = districtsData.filter((d: IDistrict) =>
+            d.provinceCode == parseInt(provinceId)
         );
         setDeadDistricts(district);
     };
@@ -97,8 +113,8 @@ export const Step2 = () => {
             ...decedentData,
             [name]: districtName,
         });
-        const subDistrict: ISubDistrict[] = subdistrictsData.filter((d: any) =>
-            d.districtCode == districtId
+        const subDistrict: ISubDistrict[] = subdistrictsData.filter((d: ISubDistrict) =>
+            d.districtCode == parseInt(districtId)
         );
         setDeadSubDistricts(subDistrict);
     }
@@ -110,8 +126,8 @@ export const Step2 = () => {
             ...decedentData,
             [name]: provinceName,
         });
-        const district: IDistrict[] = districtsData.filter((d: any) =>
-            d.provinceCode == provinceId
+        const district: IDistrict[] = districtsData.filter((d: IDistrict) =>
+            d.provinceCode == parseInt(provinceId)
         );
         setBirthDistricts(district);
     };
@@ -122,8 +138,8 @@ export const Step2 = () => {
         const { name, value } = e.target;
         const [districtId, districtName] = value.split('_');
 
-        const subDistrict: ISubDistrict[] = subdistrictsData.filter((d: any) =>
-            d.districtCode == districtId
+        const subDistrict: ISubDistrict[] = subdistrictsData.filter((d: ISubDistrict) =>
+            d.districtCode == parseInt(districtId)
         );
         setBirthSubDistricts(subDistrict);
         // set court
@@ -176,7 +192,7 @@ export const Step2 = () => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {TITLE.map((item: any) => (
+                                        {TITLE.map((item: IDropdown) => (
                                             <SelectItem key={item.value} value={item.label}>
                                                 {item.label}
                                             </SelectItem>
@@ -415,7 +431,7 @@ export const Step2 = () => {
                             <FormItem>
                                 <FormLabel>จังหวัด</FormLabel>
                                 <Select
-                                    onValueChange={(value) =>
+                                    onValueChange={(value: string) =>
                                         handleDeadProvince({
                                             target: { name: "deadProvince", value },
                                         } as React.ChangeEvent<HTMLInputElement>)
@@ -429,8 +445,8 @@ export const Step2 = () => {
                                     </FormControl>
                                     <SelectContent>
                                         {provincesData
-                                            .sort((a: any, b: any) => a.provinceNameTh.localeCompare(b.provinceNameTh))
-                                            .map((item: any) => (
+                                            .sort((a: IProvince, b: IProvince) => a.provinceNameTh.localeCompare(b.provinceNameTh))
+                                            .map((item: IProvince) => (
                                                 <SelectItem
                                                     key={item.provinceCode}
                                                     value={`${item.provinceCode}_${item.provinceNameTh}`}
@@ -454,7 +470,7 @@ export const Step2 = () => {
                             <FormItem>
                                 <FormLabel>อำเภอ/เขต</FormLabel>
                                 <Select
-                                    onValueChange={(value) =>
+                                    onValueChange={(value: string) =>
                                         handleDeadDistrict({
                                             target: { name: "deadDistrict", value },
                                         } as React.ChangeEvent<HTMLInputElement>)
@@ -469,8 +485,8 @@ export const Step2 = () => {
                                     </FormControl>
                                     <SelectContent>
                                         {deadDistricts
-                                            .sort((a: any, b: any) => a.districtNameTh.localeCompare(b.districtNameTh))
-                                            .map((item: any) => (
+                                            .sort((a: IDistrict, b: IDistrict) => a.districtNameTh.localeCompare(b.districtNameTh))
+                                            .map((item: IDistrict) => (
                                                 <SelectItem
                                                     key={item.districtCode || ""}
                                                     value={`${item.districtCode}_${item.districtNameTh}`}
@@ -491,7 +507,7 @@ export const Step2 = () => {
                             <FormItem>
                                 <FormLabel>ตำบล/แขวง</FormLabel>
                                 <Select
-                                    onValueChange={(value) =>
+                                    onValueChange={(value: string) =>
                                         handleChange({
                                             target: { name: "deadSubDistrict", value },
                                         } as React.ChangeEvent<HTMLInputElement>)
@@ -506,8 +522,8 @@ export const Step2 = () => {
                                     </FormControl>
                                     <SelectContent>
                                         {deadSubDistricts
-                                            .sort((a: any, b: any) => a.subdistrictNameTh.localeCompare(b.subdistrictNameTh))
-                                            .map((item: any) => (
+                                            .sort((a: ISubDistrict, b: ISubDistrict) => a.subdistrictNameTh.localeCompare(b.subdistrictNameTh))
+                                            .map((item: ISubDistrict) => (
                                                 <SelectItem
                                                     key={item.subdistrictCode || ""}
                                                     value={`${item.subdistrictNameTh || ""}`}
@@ -600,7 +616,7 @@ export const Step2 = () => {
                             <FormItem>
                                 <FormLabel>จังหวัด</FormLabel>
                                 <Select
-                                    onValueChange={(value) =>
+                                    onValueChange={(value: string) =>
                                         handleBirthProvince({
                                             target: { name: "birthProvince", value },
                                         } as React.ChangeEvent<HTMLInputElement>)
@@ -614,8 +630,8 @@ export const Step2 = () => {
                                     </FormControl>
                                     <SelectContent>
                                         {provincesData
-                                            .sort((a: any, b: any) => a.provinceNameTh.localeCompare(b.provinceNameTh))
-                                            .map((item: any) => (
+                                            .sort((a: IProvince, b: IProvince) => a.provinceNameTh.localeCompare(b.provinceNameTh))
+                                            .map((item: IProvince) => (
                                                 <SelectItem
                                                     key={item.provinceCode}
                                                     value={`${item.provinceCode}_${item.provinceNameTh}`}
@@ -639,7 +655,7 @@ export const Step2 = () => {
                             <FormItem>
                                 <FormLabel>อำเภอ/เขต</FormLabel>
                                 <Select
-                                    onValueChange={(value) =>
+                                    onValueChange={(value: string) =>
                                         handleBirthDistrict({
                                             target: { name: "birthDistrict", value },
                                         } as React.ChangeEvent<HTMLInputElement>)
@@ -654,8 +670,8 @@ export const Step2 = () => {
                                     </FormControl>
                                     <SelectContent>
                                         {birthDistricts
-                                            .sort((a: any, b: any) => a.districtNameTh.localeCompare(b.districtNameTh))
-                                            .map((item: any) => (
+                                            .sort((a: IDistrict, b: IDistrict) => a.districtNameTh.localeCompare(b.districtNameTh))
+                                            .map((item: IDistrict) => (
                                                 <SelectItem
                                                     key={item.districtCode || ""}
                                                     value={`${item.districtCode}_${item.districtNameTh}`}
@@ -676,7 +692,7 @@ export const Step2 = () => {
                             <FormItem>
                                 <FormLabel>ตำบล/แขวง</FormLabel>
                                 <Select
-                                    onValueChange={(value) =>
+                                    onValueChange={(value: string) =>
                                         handleChange({
                                             target: { name: "birthSubDistrict", value },
                                         } as React.ChangeEvent<HTMLInputElement>)
@@ -691,8 +707,8 @@ export const Step2 = () => {
                                     </FormControl>
                                     <SelectContent>
                                         {birthSubDistricts
-                                            .sort((a: any, b: any) => a.subdistrictNameTh.localeCompare(b.subdistrictNameTh))
-                                            .map((item: any) => (
+                                            .sort((a: ISubDistrict, b: ISubDistrict) => a.subdistrictNameTh.localeCompare(b.subdistrictNameTh))
+                                            .map((item: ISubDistrict) => (
                                                 <SelectItem
                                                     key={item.subdistrictCode || ""}
                                                     value={`${item.subdistrictNameTh || ""}`}

@@ -1,7 +1,7 @@
 
 import { Check } from "lucide-react"
 
-export const RenderStepper = ({ step }: any) => {
+export const RenderStepper = ({ step }: { step: number }) => {
     return (
         <div className="flex justify-center mb-8">
             {[1, 2, 3, 4].map((stepNumber) => (

@@ -1,6 +1,5 @@
 
 import {
-    Form,
     FormControl,
     FormField,
     FormItem,
@@ -26,10 +25,6 @@ import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { useForm } from "react-hook-form"
-import { Check } from "lucide-react"
-import { RequestForm } from "@/components/request";
-import courtData from "@/data/thai-court.json";
 import provincesData from '@/data/provinces.json';
 import districtsData from '@/data/districts.json';
 import subdistrictsData from '@/data/subdistricts.json';
@@ -52,6 +47,13 @@ interface IDistrict {
     districtNameEn: string;
     districtNameTh: string;
     postalCode: number;
+}
+
+interface IProvince {
+    id: number;
+    provinceCode: number;
+    provinceNameTh: string;
+    provinceNameEn: string;
 }
 
 interface IDropdown {
@@ -80,8 +82,8 @@ export const Step1 = () => {
             ...formData,
             [name]: provinceName,
         });
-        const district: IDistrict[] = districtsData.filter((d: any) =>
-            d.provinceCode == provinceId
+        const district: IDistrict[] = districtsData.filter((d: IDistrict) =>
+            d.provinceCode == parseInt(provinceId)
         );
         setDistricts(district);
     };
@@ -93,8 +95,8 @@ export const Step1 = () => {
             ...formData,
             [name]: districtName,
         });
-        const subDistrict: ISubDistrict[] = subdistrictsData.filter((d: any) =>
-            d.districtCode == districtId
+        const subDistrict: ISubDistrict[] = subdistrictsData.filter((d: ISubDistrict) =>
+            d.districtCode == parseInt(districtId)
         );
         setSubDistricts(subDistrict);
     }
@@ -127,7 +129,7 @@ export const Step1 = () => {
                             <FormItem>
                                 <FormLabel>คำนำหน้า</FormLabel>
                                 <Select
-                                    onValueChange={(value) =>
+                                    onValueChange={(value: string) =>
                                         handleChange({
                                             target: { name: "title", value },
                                         } as React.ChangeEvent<HTMLInputElement>)
@@ -140,7 +142,7 @@ export const Step1 = () => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {TITLE.map((item: any) => (
+                                        {TITLE.map((item: IDropdown) => (
                                             <SelectItem key={item.value} value={item.label}>
                                                 {item.label}
                                             </SelectItem>
@@ -378,7 +380,7 @@ export const Step1 = () => {
                             <FormItem>
                                 <FormLabel>จังหวัด</FormLabel>
                                 <Select
-                                    onValueChange={(value) =>
+                                    onValueChange={(value: string) =>
                                         handleProvinceChange({
                                             target: { name: "province", value },
                                         } as React.ChangeEvent<HTMLInputElement>)
@@ -392,8 +394,8 @@ export const Step1 = () => {
                                     </FormControl>
                                     <SelectContent>
                                         {provincesData
-                                            .sort((a: any, b: any) => a.provinceNameTh.localeCompare(b.provinceNameTh))
-                                            .map((item: any) => (
+                                            .sort((a: IProvince, b: IProvince) => a.provinceNameTh.localeCompare(b.provinceNameTh))
+                                            .map((item: IProvince) => (
                                                 <SelectItem
                                                     key={item.provinceCode}
                                                     value={`${item.provinceCode}_${item.provinceNameTh}`}
@@ -417,7 +419,7 @@ export const Step1 = () => {
                             <FormItem>
                                 <FormLabel>อำเภอ/เขต</FormLabel>
                                 <Select
-                                    onValueChange={(value) =>
+                                    onValueChange={(value: string) =>
                                         handleDistrictChange({
                                             target: { name: "district", value },
                                         } as React.ChangeEvent<HTMLInputElement>)
@@ -432,8 +434,8 @@ export const Step1 = () => {
                                     </FormControl>
                                     <SelectContent>
                                         {districts
-                                            .sort((a: any, b: any) => a.districtNameTh.localeCompare(b.districtNameTh))
-                                            .map((item: any) => (
+                                            .sort((a: IDistrict, b: IDistrict) => a.districtNameTh.localeCompare(b.districtNameTh))
+                                            .map((item: IDistrict) => (
                                                 <SelectItem
                                                     key={item.districtCode || ""}
                                                     value={`${item.districtCode}_${item.districtNameTh}`}
@@ -454,7 +456,7 @@ export const Step1 = () => {
                             <FormItem>
                                 <FormLabel>ตำบล/แขวง</FormLabel>
                                 <Select
-                                    onValueChange={(value) =>
+                                    onValueChange={(value: string) =>
                                         handleSubDistrictChange({
                                             target: { name: "subDistrict", value },
                                         } as React.ChangeEvent<HTMLInputElement>)
@@ -469,8 +471,8 @@ export const Step1 = () => {
                                     </FormControl>
                                     <SelectContent>
                                         {subDistricts
-                                            .sort((a: any, b: any) => a.subdistrictNameTh.localeCompare(b.subdistrictNameTh))
-                                            .map((item: any) => (
+                                            .sort((a: ISubDistrict, b: ISubDistrict) => a.subdistrictNameTh.localeCompare(b.subdistrictNameTh))
+                                            .map((item: ISubDistrict) => (
                                                 <SelectItem
                                                     key={item.subdistrictCode || ""}
                                                     value={`${item.postalCode || ""}_${item.subdistrictNameTh || ""}`}

@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useRef } from 'react';
+import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import styles from './request.module.css';
 import { useCaseStore } from "@/stores/caseStore";
@@ -24,7 +24,7 @@ export const RequestForm = () => {
     const contentRef = useRef<HTMLDivElement>(null);
     const reactToPrintFn = useReactToPrint({ contentRef });
 
-    const { formData, setFormData } = useCaseStore()
+    const { formData } = useCaseStore()
     const caseData = formData;
 
     const idNumber = caseData?.idNumber.split('') || [];
@@ -43,6 +43,7 @@ export const RequestForm = () => {
     const age = caseData?.birthDate ? calculateAge(caseData.birthDate) : '';
 
     let [birthYear, birthMonth, birthDay] = removeZero?.split('-') || [];
+    birthDay = birthDay || '';
     birthMonth = THAI_MONTHS[parseInt(birthMonth) - 1] || '';
     birthYear = birthYear ? (parseInt(birthYear) + 543).toString() : '';
 

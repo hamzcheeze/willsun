@@ -12,34 +12,11 @@ import {
     FormItem,
     FormLabel,
 } from "@/components/ui/form"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-import { format } from "date-fns"
-import { th } from "date-fns/locale";
-import { CalendarIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { useForm } from "react-hook-form"
-
 import { RequestForm } from "@/components/request";
-import courtData from "@/data/thai-court.json";
-import provincesData from '@/data/provinces.json';
-import districtsData from '@/data/districts.json';
-import subdistrictsData from '@/data/subdistricts.json';
-import { create } from 'zustand';
 import { Step1 } from "@/components/Step1";
 import { Step2 } from "@/components/Step2";
 import { RenderStepper } from "@/components/RenderStepper";
@@ -48,32 +25,12 @@ import { useDecedentStore } from "@/stores/decedentStore";
 
 const Body = () => {
     const form = useForm();
-    // const [formData, setFormData] = useState<CaseData>({
-    //     blackCase: "",
-    //     year: "2568",
-    //     content: "แพ่ง",
-    //     plaintiff: "",
-    //     province: "",
-    //     amphur: "",
-    //     courtName: "",
-    //     title: "",
-    //     firstName: "",
-    //     lastName: "",
-    //     idNumber: "",
-    //     birthDate: "",
-    // });
     // const [isLoading, setIsLoading] = useState(false);
     // const [error, setError] = useState<Error | null>(null);
-    const { formData, setFormData } = useCaseStore()
-    const { decedentData, setDecedentData } = useDecedentStore()
-    const [response, setResponse] = useState(false);
+    const { formData } = useCaseStore()
+    const { decedentData } = useDecedentStore()
+    // const [response, setResponse] = useState(false);
     const [step, setStep] = useState(1);
-    const [selectedProvince, setSelectedProvince] = useState<string>('');
-    const [selectedAmphur, setSelectedAmphur] = useState<string>('');
-    const [amphurs, setAmphurs] = useState<{ name: string; court: string[] }[]>([]);
-    // const [courts, setCourts] = useState<string[]>([]);
-    const [date, setDate] = useState<Date>()
-    const getYear = new Date().getFullYear();
 
     const handlePrevious = () => {
         setStep(step - 1);
@@ -86,7 +43,8 @@ const Body = () => {
     };
 
     function onSubmit() {
-        setResponse(true);
+        // setResponse(true);
+        console.log("test")
     }
 
     // const handleProvinceChange = (value: string) => {
@@ -104,7 +62,6 @@ const Body = () => {
     //     const amphur = amphurs.find(a => a.name === value);
     //     setCourts(amphur ? amphur.court : []);
     // };
-
 
     const renderStepContent = (currentStep: number) => {
         switch (currentStep) {
