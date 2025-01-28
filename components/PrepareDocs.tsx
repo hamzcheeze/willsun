@@ -100,7 +100,7 @@ export const PrepareDocs: FC<PrepareDocsProps> = ({ relation, parentStatus, chil
                         items={deceasedDocs}
                     />
                     <DocumentSection
-                        title="3. ทรัพย์มรดก"
+                        title="3. ทรัพย์มรดกของผู้ตาย"
                         items={inheritanceDocs}
                     />
                     <DocumentSection

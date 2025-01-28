@@ -16,12 +16,14 @@ import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { useForm } from "react-hook-form"
-import { RequestForm } from "@/components/request";
+import RequestForm from "@/components/request";
 import { Step1 } from "@/components/Step1";
 import { Step2 } from "@/components/Step2";
 import { RenderStepper } from "@/components/RenderStepper";
 import { useCaseStore } from "@/stores/caseStore";
 import { useDecedentStore } from "@/stores/decedentStore";
+import { useReactToPrint } from 'react-to-print';
+import { useRef } from 'react';
 
 const Body = () => {
     const form = useForm();
@@ -31,6 +33,12 @@ const Body = () => {
     const { decedentData } = useDecedentStore()
     // const [response, setResponse] = useState(false);
     const [step, setStep] = useState(1);
+    const componentRef = useRef<HTMLDivElement>(null);
+
+    const handlePrint = useReactToPrint({
+        documentTitle: "printed-document",
+        contentRef: componentRef,
+    });
 
     const handlePrevious = () => {
         setStep(step - 1);
@@ -161,7 +169,7 @@ const Body = () => {
     return (
         <section className="grid grid-cols-12 mb-12">
             <div className="col-span-5 mr-4">
-                <Card className="overflow-y-auto h-[314mm]">
+                <Card className="overflow-y-auto h-[317mm]">
                     <CardHeader>
                         <h1 className="text-3xl font-bold mb-5 text-center">สร้างเอกสาร</h1>
                     </CardHeader>
@@ -177,7 +185,7 @@ const Body = () => {
                                             onClick={handlePrevious}
                                             variant="outline"
                                         >
-                                            Previous
+                                            ก่อนหน้า
                                         </Button>
                                     )}
                                     {step < 4 ? (
@@ -186,7 +194,7 @@ const Body = () => {
                                             onClick={handleContinue}
                                             className="ml-auto"
                                         >
-                                            Continue
+                                            ต่อไป
                                         </Button>
                                     ) : (
                                         <Button
@@ -197,7 +205,7 @@ const Body = () => {
                                                 form.handleSubmit(onSubmit)();
                                             }}
                                         >
-                                            Submit
+                                            ยืนยัน
                                         </Button>
                                     )}
                                 </div>
@@ -207,9 +215,17 @@ const Body = () => {
                 </Card>
             </div>
             <div className="col-span-7">
-                <Card className="overflow-y-auto">
+
+                <Card className="overflow-y-auto h-[317mm]">
+                    <Button
+                        className="w-full font-normal"
+                        variant="secondary"
+                        onClick={() => handlePrint()}
+                    >
+                        สั่งพิมพ์เอกสาร
+                    </Button>
                     <CardContent>
-                        <RequestForm />
+                        <RequestForm ref={componentRef} />
                     </CardContent>
                 </Card>
 

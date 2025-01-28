@@ -1,11 +1,10 @@
 'use client';
 
 import styles from './request.module.css';
-import { useRef } from 'react';
-import { useReactToPrint } from 'react-to-print';
 import { useCaseStore } from "@/stores/caseStore";
 import { useDecedentStore } from "@/stores/decedentStore";
 import { calculateAge } from "@/lib/utils";
+import { forwardRef } from 'react';
 import moment from 'moment';
 
 const THAI_MONTHS = [
@@ -23,10 +22,7 @@ const THAI_MONTHS = [
     'ธันวาคม'
 ];
 
-export const RequestForm = () => {
-    const contentRef = useRef<HTMLDivElement>(null);
-    const reactToPrintFn = useReactToPrint({ contentRef });
-
+const RequestForm = forwardRef<HTMLDivElement>((_props, ref) => {
     const { formData } = useCaseStore()
     const { decedentData } = useDecedentStore()
     const caseData = formData;
@@ -58,9 +54,7 @@ export const RequestForm = () => {
 
     return (
         <>
-            {/* <br /> */}
-            <button onClick={() => reactToPrintFn()}>Print</button>
-            <div ref={contentRef} className={styles.page}>
+            <div ref={ref} className={styles.page}>
                 <div className={styles.row}>
                     <div className={styles.leftColumn}>
                         <div className={styles.gridContainer2left}>
@@ -279,4 +273,9 @@ export const RequestForm = () => {
             </div>
         </>
     );
-};
+});
+
+RequestForm.displayName = 'RequestForm';
+
+export default RequestForm;
+
