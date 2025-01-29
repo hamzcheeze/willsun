@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { useForm } from "react-hook-form"
-import RequestForm from "@/components/request";
+import AllPage from "@/components/AllPage";
 import { Step1 } from "@/components/Step1";
 import { Step2 } from "@/components/Step2";
 import { RenderStepper } from "@/components/RenderStepper";
@@ -209,7 +209,7 @@ const Body = () => {
                         สั่งพิมพ์เอกสาร
                     </Button>
                     <CardContent>
-                        <RequestForm ref={componentRef} />
+                        <AllPage ref={componentRef} />
                     </CardContent>
                 </Card>
 

@@ -155,7 +155,7 @@ export const Step2 = () => {
                 return court.startsWith("จังหวัด")
             }
         })
-
+        
         setDecedentData({
             ...decedentData,
             [name]: districtName,
