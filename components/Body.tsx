@@ -45,8 +45,8 @@ const Body = () => {
     };
 
     const handleContinue = () => {
-        console.log(formData);
-        console.log(decedentData);
+        // console.log(formData);
+        // console.log(decedentData);
         setStep(step + 1);
     };
 
@@ -54,22 +54,6 @@ const Body = () => {
         // setResponse(true);
         console.log("test")
     }
-
-    // const handleProvinceChange = (value: string) => {
-    //     setSelectedProvince(value);
-    //     setFormData({ ...formData, province: value });
-    //     const province = courtData.province.find(p => p.name === value);
-    //     setAmphurs(province ? province.amphur : []);
-    //     setSelectedAmphur('');
-    //     setCourts([]);
-    // };
-
-    // const handleAmphurChange = (value: string) => {
-    //     setSelectedAmphur(value);
-    //     setFormData({ ...formData, amphur: value });
-    //     const amphur = amphurs.find(a => a.name === value);
-    //     setCourts(amphur ? amphur.court : []);
-    // };
 
     const renderStepContent = (currentStep: number) => {
         switch (currentStep) {

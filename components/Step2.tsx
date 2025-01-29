@@ -155,6 +155,7 @@ export const Step2 = () => {
                 return court.startsWith("จังหวัด")
             }
         })
+
         setDecedentData({
             ...decedentData,
             [name]: districtName,
@@ -219,7 +220,7 @@ export const Step2 = () => {
                         name="firstName"
                         render={() => (
                             <FormItem className="flex-1">
-                                <FormLabel>ชื่อ</FormLabel>
+                                <FormLabel>ชื่อผู้ตาย</FormLabel>
                                 <FormControl>
                                     <Input
                                         name="firstName"

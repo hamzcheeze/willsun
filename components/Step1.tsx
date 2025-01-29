@@ -158,7 +158,7 @@ export const Step1 = () => {
                         name="firstName"
                         render={() => (
                             <FormItem className="flex-1">
-                                <FormLabel>ชื่อ</FormLabel>
+                                <FormLabel>ชื่อผู้ร้อง</FormLabel>
                                 <FormControl>
                                     <Input
                                         name="firstName"

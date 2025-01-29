@@ -16,7 +16,7 @@ interface FromState {
 
 export const PrepareDocs: FC<PrepareDocsProps> = ({ relation, parentStatus, childrenAmount }) => {
     let from: FromState = { alive: [], dead: [] };
-    
+
     switch (parentStatus) {
         case 'aliveBoth':
             from = { alive: ['บิดาผู้ตาย', 'มารดาผู้ตาย'], dead: [] };
@@ -49,15 +49,17 @@ export const PrepareDocs: FC<PrepareDocsProps> = ({ relation, parentStatus, chil
         'สำเนาทะเบียนบ้าน',
         'สำเนาบัตรประชาชน',
         'สำเนาใบเปลี่ยนชื่อ-สกุล (ถ้ามี)',
+        ...(relation !== 'dadMomInlaw' ? ['สำเนาใบสูติบัตร'] : []),
     ];
 
     const deceasedDocs = [
         'สำเนาทะเบียนบ้าน',
         'สำเนามรณบัตร',
-        ...((relation === 'marriedMom' || relation === 'marriedDad') ? ['สำเนาทะเบียนสมรส/หย่า'] : []),
         'สำเนาใบเปลี่ยนชื่อ-สกุล (ถ้ามี)',
-        ...(relation === 'dadMomInlaw' ? ['ทะเบียนรับบุตรบุญธรรม'] : []),
-        ...(relation === 'dad' ? ['ทะเบียนรับรองบุตร (ถ้ามี)'] : []),
+        ...((relation === 'marriedMom' || relation === 'marriedDad') ? ['สำเนาทะเบียนสมรส/หย่า'] : []),
+        ...((relation === 'mom' || relation === 'dad') ? ['สำเนาทะเบียนสมรส/หย่า (ถ้ามี)'] : []),
+        ...(relation === 'dadMomInlaw' ? ['สำเนาทะเบียนรับบุตรบุญธรรม'] : []),
+        ...(relation === 'dad' ? ['สำเนาทะเบียนรับรองบุตร (ถ้ามี)'] : []),
     ];
 
     const inheritanceDocs = [
@@ -71,7 +73,6 @@ export const PrepareDocs: FC<PrepareDocsProps> = ({ relation, parentStatus, chil
     ];
 
     const consentDocs = [
-        'หนังสือให้ความยินยอมในการขอจัดการมรดก',
         'สำเนาทะเบียนบ้าน',
         'สำเนาบัตรประชาชน',
     ];
@@ -100,7 +101,7 @@ export const PrepareDocs: FC<PrepareDocsProps> = ({ relation, parentStatus, chil
                         items={deceasedDocs}
                     />
                     <DocumentSection
-                        title="3. ทรัพย์มรดกของผู้ตาย"
+                        title="3. ทรัพย์มรดกของผู้ตาย (เช่น)"
                         items={inheritanceDocs}
                     />
                     <DocumentSection

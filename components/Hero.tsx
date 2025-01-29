@@ -31,7 +31,7 @@ export default function Hero() {
             <div className="custom-screen pt-28 text-gray-600">
                 <div className="space-y-5 max-w-4xl mx-auto text-center">
                     <h1 className="text-4xl text-gray-800 font-extrabold mx-auto sm:text-6xl">
-                        สร้างเอกสารจัดตั้งผู้จัดการมรดก
+                        สร้างเอกสารจัดการมรดก
                         <br />
                         ได้ด้วยตัวคุณเอง
                     </h1>

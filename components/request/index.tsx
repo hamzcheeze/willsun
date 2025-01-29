@@ -28,6 +28,7 @@ const RequestForm = forwardRef<HTMLDivElement>((_props, ref) => {
     const caseData = formData;
     const appellant = `${caseData?.title}${caseData?.firstName} ${caseData?.lastName}`;
     const decedent = `${decedentData?.title}${decedentData?.firstName} ${decedentData?.lastName}`;
+    const courtName = decedentData?.courtName;
 
     const idNumber = caseData?.idNumber.split('') || [];
     const removeZero = caseData?.birthDate?.replace(/-0+/g, '-');
@@ -91,7 +92,7 @@ const RequestForm = forwardRef<HTMLDivElement>((_props, ref) => {
                     <div className={styles.col2}>
                         <div className={styles.title}>ศาล</div>
                         <div className={styles.dashedLine}>
-                            <div className={styles.courtData}>{caseData?.courtName}</div>
+                            <div className={styles.courtData}>{courtName}</div>
                         </div>
                     </div>
                 </div>
