@@ -20,17 +20,17 @@ import AllPage from "@/components/AllPage";
 import { Step1 } from "@/components/Step1";
 import { Step2 } from "@/components/Step2";
 import { RenderStepper } from "@/components/RenderStepper";
-import { useCaseStore } from "@/stores/caseStore";
-import { useDecedentStore } from "@/stores/decedentStore";
 import { useReactToPrint } from 'react-to-print';
 import { useRef } from 'react';
+// import { useCaseStore } from "@/stores/caseStore";
+// import { useDecedentStore } from "@/stores/decedentStore";
 
 const Body = () => {
     const form = useForm();
     // const [isLoading, setIsLoading] = useState(false);
     // const [error, setError] = useState<Error | null>(null);
-    const { formData } = useCaseStore()
-    const { decedentData } = useDecedentStore()
+    // const { formData } = useCaseStore()
+    // const { decedentData } = useDecedentStore()
     // const [response, setResponse] = useState(false);
     const [step, setStep] = useState(1);
     const componentRef = useRef<HTMLDivElement>(null);
