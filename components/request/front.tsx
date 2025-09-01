@@ -235,14 +235,14 @@ export const RequestForm = () => {
             <div className={styles.leftColumn}>
                 <div className={styles.title}>ขอยื่นคำร้อง มีข้อความที่จะกล่าวต่อไปนี้</div>
                 <div id={styles.blankSpace}>
-                    <div className={styles.dashedLineLeft}>{ }</div>
-                    <div className={styles.dashedLineLeft}>{ }</div>
-                    <div className={styles.dashedLineLeft}>{ }</div>
-                    <div className={styles.dashedLineLeft}>{ }</div>
-                    <div className={styles.dashedLineLeft}>{ }</div>
-                    <div className={styles.dashedLineLeft}>{ }</div>
-                    <div className={styles.dashedLineLeft}>{ }</div>
-                    <div className={styles.dashedLineLeft}>{ }</div>
+                    <div className={styles.dashedLineLeft}>1</div>
+                    <div className={styles.dashedLineLeft}>2</div>
+                    <div className={styles.dashedLineLeft}>3</div>
+                    <div className={styles.dashedLineLeft}>4</div>
+                    <div className={styles.dashedLineLeft}>5</div>
+                    <div className={styles.dashedLineLeft}>6</div>
+                    <div className={styles.dashedLineLeft}>7</div>
+                    <div className={styles.dashedLineLeft}>8</div>
                 </div>
             </div>
         </div>
