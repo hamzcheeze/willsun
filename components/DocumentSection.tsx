@@ -13,7 +13,6 @@ interface DocumentSectionProps {
 }
 
 export const DocumentSection: FC<DocumentSectionProps> = ({ title, items, from }) => {
-    console.log(from)
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
