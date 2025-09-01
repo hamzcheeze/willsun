@@ -8,16 +8,16 @@ export const BackPage = () => {
             <div className={styles.leftColumn}>
                 <div id={styles.blankSpace}>
                     {/* <div id={styles.canHide} className={styles.title}>blank</div> */}
-                    <div className={styles.dashedLineLeft}></div>
-                    <div className={styles.dashedLineLeft}></div>
-                    <div className={styles.dashedLineLeft}></div>
-                    <div className={styles.dashedLineLeft}></div>
-                    <div className={styles.dashedLineLeft}></div>
-                    <div className={styles.dashedLineLeft}></div>
-                    <div className={styles.dashedLineLeft}></div>
-                    <div className={styles.dashedLineLeft}></div>
-                    <div className={styles.dashedLineLeft}></div>
-                    <div className={styles.dashedLineLeft}></div>
+                    <div className={styles.dashedLineLeft}>1</div>
+                    <div className={styles.dashedLineLeft}>2</div>
+                    <div className={styles.dashedLineLeft}>3</div>
+                    <div className={styles.dashedLineLeft}>4</div>
+                    <div className={styles.dashedLineLeft}>5</div>
+                    <div className={styles.dashedLineLeft}>6</div>
+                    <div className={styles.dashedLineLeft}>7</div>
+                    <div className={styles.dashedLineLeft}>8</div>
+                    <div className={styles.dashedLineLeft}>9</div>
+                    <div className={styles.dashedLineLeft}>10</div>
                     <div className={styles.dashedLineLeft}>11</div>
                     <div className={styles.dashedLineLeft}>12</div>
                     <div className={styles.dashedLineLeft}>13</div>
